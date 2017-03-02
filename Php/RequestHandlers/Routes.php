@@ -19,23 +19,23 @@ class Routes
     public function handle()
     {
 
-        return null;
         /*
         if(!$this->isBot()){
             return null;
         }
         */
 
-        if ($this->isStaticRenderRequest()){
-            //die('<html><head></head><body>'.print_r($_SERVER).'</body></html>');
-        }
+        //return null;
 
+        if ($this->isStaticRenderRequest()){
+            return null;
+        }
 
         if (!$this->wRequest()->isApi() && !$this->isStaticRenderRequest()) {
 
-            $phantomjs = new PhantomJs('http://demo.app/');
+            $phantomjs = new PhantomJs($this->wRequest()->getCurrentUrl());
 
-            die($phantomjs->getContent());
+            die('content:'.$phantomjs->getContent());
 
             // check if we have it on the database
 
@@ -56,6 +56,14 @@ class Routes
 
     private function isStaticRenderRequest()
     {
-        return $this->str($this->wRequest()->server()->httpUserAgent())->contains('Webiny StaticRender');
+        if($this->wRequest()->header('HTTP_XWEBINYSTATICRENDER', false)
+            || $this->wRequest()->header('XWEBINYSTATICRENDER', false)
+            || $this->wRequest()->header('XWebinyStaticRender', false)
+            || $this->wRequest()->header('Xwebinystaticrender', false)
+        ){
+            return true;
+        }
+
+        return false;
     }
 }

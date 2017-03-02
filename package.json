@@ -1,5 +1,5 @@
 {
-    "dependencies": {
-        "phantom": "^4.0.0"
-    }
+  "dependencies": {
+    "phantom": "^4.0.0"
+  }
 }

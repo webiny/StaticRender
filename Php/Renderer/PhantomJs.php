@@ -51,42 +51,47 @@ class PhantomJs
         return $this->config->get('Settings.ResourceTimeout', 5000);
     }
 
+    private function getPhantomJsPath()
+    {
+        return $this->config->get('Settings.PathToPhantomJs', '/usr/local/bin/phantomjs');
+    }
+
+    private function getNodePath()
+    {
+        return $this->config->get('Settings.PathToNode', '/usr/bin/node');
+    }
+
 
     private function getJsTemplateSource()
     {
-        return 'var page = require(\'webpage\').create();
-var url = \'' . $this->url . '\';
-var ref = \'' . $this->wRequest()->server()->httpReferer() . '\';
-//page.settings.resourceTimeout = ' . $this->getResourceTimeout() . ';
-page.settings.userAgent = \'Mozilla/5.0 (Windows NT 6.1; WOW64; Webiny StaticRender) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.120 Safari/537.36\';
 
-function onPageReady() {
-    var htmlContent = page.evaluate(function () {
-        return document.documentElement.outerHTML;
-    });
+        $appPath = realpath(__DIR__.'/../../');
 
-    console.log(htmlContent);
-
-    phantom.exit();
-}
-
-page.open(url, function (status) {
-    function checkReadyState() {
-        setTimeout(function () {
-            var readyState = page.evaluate(function () {
-                return document.readyState;
-            });
-
-            if ("complete" === readyState) {
-                onPageReady();
-            } else {
-                checkReadyState();
-            }
-        });
-    }
-
-    checkReadyState();
-});';
+        return '
+                const phantom = require("'.$appPath.'/node_modules/phantom");
+                
+                const url = "' . $this->url . '";
+                
+                phantom.create([], {
+                    phantomPath: "' . $this->getPhantomJsPath() . '"
+                }).then(function (ph) {
+                    ph.createPage().then(function (page) {
+                
+                        page.property(\'viewportSize\', {width: 1440, height: 768});
+                        page.property(\'customHeaders\', {"XWebinyStaticRender": "true"});
+                
+                        page.open(url).then(function (status) {
+                            console.log(status);
+                            setTimeout(() => {
+                                page.property(\'content\').then(function (content) {
+                                    console.log(content);
+                                    page.close();
+                                    ph.exit();
+                                });
+                            }, ' . $this->getResourceTimeout() . ')
+                        });
+                    });
+                });';
     }
 
     private function getJsTemplatePath()
@@ -99,22 +104,18 @@ page.open(url, function (status) {
         $templatePath = $absPath . 'Cache' . DIRECTORY_SEPARATOR . 'static-renderer-' . time() . '-' . md5($this->url) . '.js';
         file_put_contents($templatePath, $this->getJsTemplateSource());
 
-        die($templatePath)
         return $templatePath;
     }
 
     private function renderPage()
     {
-        $phantomJsPath = $this->config->get('Settings.PathToPhantomJs', false);
-        if (!$phantomJsPath) {
-            throw new StaticRenderException('PathToPhantomJs is not defined in the config.');
-        }
+        $command = $this->getNodePath().' ' . $this->getJsTemplatePath().' 2>&1';
 
+        $output = shell_exec($command);
 
-        $command = $phantomJsPath . ' ' . $this->getJsTemplatePath() . ' 2>&1';
-
-        exec($command, $output);
-
+        die(print_r($output));
+        
+        
         array_shift($output);
         array_pop($output);
 
