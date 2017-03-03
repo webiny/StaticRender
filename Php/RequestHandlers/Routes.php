@@ -9,7 +9,7 @@ namespace Apps\StaticRender\Php\RequestHandlers;
 
 use Apps\Core\Php\DevTools\WebinyTrait;
 use Apps\Core\Php\DevTools\Response\HtmlResponse;
-use Apps\StaticRender\Php\Renderer\PhantomJs;
+use Apps\StaticRender\Php\Renderer\Renderer;
 use Webiny\Component\StdLib\StdObjectTrait;
 
 class Routes
@@ -19,13 +19,9 @@ class Routes
     public function handle()
     {
 
-        /*
         if(!$this->isBot()){
             return null;
         }
-        */
-
-        //return null;
 
         if ($this->isStaticRenderRequest()){
             return null;
@@ -33,9 +29,9 @@ class Routes
 
         if (!$this->wRequest()->isApi() && !$this->isStaticRenderRequest()) {
 
-            $phantomjs = new PhantomJs($this->wRequest()->getCurrentUrl());
+            $renderer = new Renderer($this->wRequest()->getCurrentUrl());
 
-            die('content:'.$phantomjs->getContent());
+            die('content:'.$renderer->getContent());
 
             // check if we have it on the database
 
