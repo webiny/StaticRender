@@ -9,7 +9,9 @@ namespace Apps\StaticRender\Php\RequestHandlers;
 
 use Apps\Core\Php\DevTools\WebinyTrait;
 use Apps\Core\Php\DevTools\Response\HtmlResponse;
+use Apps\StaticRender\Php\Entities\Cache;
 use Apps\StaticRender\Php\Renderer\Renderer;
+use MongoDB\BSON\UTCDatetime;
 use Webiny\Component\StdLib\StdObjectTrait;
 
 class Routes
@@ -19,27 +21,45 @@ class Routes
     public function handle()
     {
 
-        if(!$this->isBot()){
+        if (!$this->isBot()) {
             return null;
         }
 
-        if ($this->isStaticRenderRequest()){
+        if ($this->isStaticRenderRequest()) {
             return null;
         }
 
         if (!$this->wRequest()->isApi() && !$this->isStaticRenderRequest()) {
 
-            $renderer = new Renderer($this->wRequest()->getCurrentUrl());
+            $url = $this->wRequest()->getCurrentUrl();
+            $content = false;
 
-            die('content:'.$renderer->getContent());
+            // check if we have it in the cache
+            $cache = Cache::findOne(['url' => $url]);
+            if ($cache) {
+                $content = $cache->content;
+            } else {
+                // if it's not cached, let's try and render it
+                try {
+                    $renderer = new Renderer($this->wRequest()->getCurrentUrl());
+                    if ($renderer !== false && $renderer != '') {
+                        $content = $renderer->getContent();
 
-            // check if we have it on the database
+                        // save the page
+                        $cache = new Cache();
+                        $cache->url = $url;
+                        $cache->ttl = new UTCDatetime((time() + $renderer->getTtl()) * 1000);
+                        $cache->content = $content;
+                        $cache->save();
+                    }
+                } catch (\Exception $e) {
+                    return null;
+                }
+            }
 
-            // validate ttl
-
-            // if ttl has expired or we don't have it cached, render via phantomjs
-
-            return new HtmlResponse($this->wRouter()->execute($match));
+            if ($content) {
+                return new HtmlResponse($content);
+            }
         }
 
         return null;
@@ -47,17 +67,23 @@ class Routes
 
     private function isBot()
     {
-        return $this->str($this->wRequest()->server()->httpUserAgent())->match('/bot|crawl|slurp|spider/i');
+        return $this->str($this->wRequest()->server()->httpUserAgent())->match('/bot|crawl|slurp|spider|facebookexternalhit/i');
     }
 
     private function isStaticRenderRequest()
     {
-        if($this->wRequest()->header('HTTP_XWEBINYSTATICRENDER', false)
-            || $this->wRequest()->header('XWEBINYSTATICRENDER', false)
-            || $this->wRequest()->header('XWebinyStaticRender', false)
-            || $this->wRequest()->header('Xwebinystaticrender', false)
-        ){
-            return true;
+        $headers = $this->wRequest()->header();
+        $possibleValues = [
+            'HTTP_XWEBINYSTATICRENDER',
+            'XWEBINYSTATICRENDER',
+            'XWebinyStaticRender',
+            'Xwebinystaticrender'
+        ];
+
+        foreach ($headers as $name => $val) {
+            if (in_array($name, $possibleValues)) {
+                return true;
+            }
         }
 
         return false;

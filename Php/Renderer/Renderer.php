@@ -37,6 +37,11 @@ class Renderer
         return $this->content;
     }
 
+    public function getTtl()
+    {
+        return $this->config->get('Settings.CacheTtl', 600);
+    }
+
     private function loadConfig()
     {
         $this->config = $this->wConfig()->getConfig()->get('Application.StaticRender', false);
