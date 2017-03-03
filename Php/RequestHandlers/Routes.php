@@ -21,7 +21,7 @@ class Routes
     public function handle()
     {
 
-        if (!$this->isBot()) {
+        if (!$this->isBot() || !$this->wIsProduction()) {
             return null;
         }
 
