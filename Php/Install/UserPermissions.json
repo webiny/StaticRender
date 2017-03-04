@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Static render",
+        "slug": "static-render-manage-all",
+        "description": "Allows user to perform all actions on Static Render app",
+        "permissions": {
+            "entities": {
+                "Apps\\StaticRender\\Php\\Entities\\Cache": {
+                    "crudCreate": true,
+                    "crudUpdate": true,
+                    "crudDelete": true,
+                    "crudRead": true
+                }
+            }
+        }
+    }
+]

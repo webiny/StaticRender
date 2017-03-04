@@ -1,0 +1,8 @@
+[
+    {
+        "name": "Static render",
+        "slug": "static-render",
+        "description": "This role allows user to view the cached pages created by static render.",
+        "permissions": ["static-render-manage-all"]
+    }
+]
