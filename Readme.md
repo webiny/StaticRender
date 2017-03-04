@@ -62,7 +62,7 @@ Application:
 
 `ResourceTimeout`
 Defines how log to wait before taking the snapshot of the DOM.
-If you see that some of your components are now loading, try increasing the number.
+If you see that some of your components are not loading, try increasing the number.
 The number is in milliseconds.
 
  `CacheTtl`
