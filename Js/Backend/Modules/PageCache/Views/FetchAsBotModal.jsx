@@ -26,26 +26,34 @@ class FetchAsBotModal extends Webiny.Ui.ModalComponent {
     }
 
     fetchUrl(form) {
-        form.submit();
-
-        console.log('has error: '+form.hasError());
-        console.log('is valid: '+form.isValid);
-
-        if (form.isValid === true) {
-            this.setState({
-                message: 'Fetching ... please wait',
-                status: 'warning'
-            });
-        }
+        form.submit().then(()=> {
+            console.log('is valid:' + form.isValid());
+            console.log('has error:' + form.hasError());
+            if (form.isValid) {
+                this.setState({
+                    message: 'Fetching ... please wait',
+                    status: 'warning'
+                });
+            }
+        });
     }
 
     renderDialog() {
         const formProps = {
             api: '/entities/static-render/cache/fetch-as-bot',
+            onSubmit: (model, form) => {
+                this.setState({
+                    message: 'Fetching ... please wait',
+                    status: 'warning'
+                });
+
+                return form.onSubmit(model);
+            },
             onSubmitSuccess: (result) => {
                 this.initialState();
                 this.setState({content: result.getData('content')});
-            }
+            },
+            onSuccessMessage: null
         };
 
         return (
@@ -61,7 +69,7 @@ class FetchAsBotModal extends Webiny.Ui.ModalComponent {
                                     <Ui.Grid.Row>
                                         <Ui.Grid.Col all={12}>
                                             <Ui.Input label="Url" name="url" validate="required,url"
-                                                      placeholder="Type the url and press enter" onEnter={()=>{this.fetchUrl(form)}}/>
+                                                      placeholder="Type the url and press enter" onEnter={form.submit}/>
                                         </Ui.Grid.Col>
                                     </Ui.Grid.Row>
                                 )}
