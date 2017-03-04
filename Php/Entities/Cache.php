@@ -57,7 +57,7 @@ class Cache extends AbstractEntity
 
         /**
          * @api.name        Refreshes the cache for the given entry
-         * @api.description
+         * @api.description Refreshes the cache for the given entry
          */
         $this->api('GET', 'refresh/{entry}', function (Cache $entry) {
             $renderer = new Renderer($entry->url);

@@ -9,7 +9,13 @@
                     "crudCreate": true,
                     "crudUpdate": true,
                     "crudDelete": true,
-                    "crudRead": true
+                    "crudRead": true,
+                    "fetch-as-bot" : {
+                        "post" : true
+                    },
+                    "refresh/{entry}" : {
+                        "get" : true
+                    }
                 }
             }
         }
