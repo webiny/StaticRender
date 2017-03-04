@@ -11,6 +11,7 @@ use Apps\Core\Php\DevTools\WebinyTrait;
 use Apps\StaticRender\Php\Exceptions\StaticRenderException;
 use Webiny\Component\Config\ConfigObject;
 use Webiny\Component\StdLib\StdObjectTrait;
+use MongoDB\BSON\UTCDatetime;
 
 set_time_limit(300);
 
@@ -39,7 +40,8 @@ class Renderer
 
     public function getTtl()
     {
-        return $this->config->get('Settings.CacheTtl', 600);
+        $ttl = $this->config->get('Settings.CacheTtl', 600);
+        return new UTCDatetime((time() + $ttl) * 1000);
     }
 
     private function loadConfig()

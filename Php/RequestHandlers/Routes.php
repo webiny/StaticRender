@@ -11,7 +11,6 @@ use Apps\Core\Php\DevTools\WebinyTrait;
 use Apps\Core\Php\DevTools\Response\HtmlResponse;
 use Apps\StaticRender\Php\Entities\Cache;
 use Apps\StaticRender\Php\Renderer\Renderer;
-use MongoDB\BSON\UTCDatetime;
 use Webiny\Component\StdLib\StdObjectTrait;
 
 class Routes
@@ -48,7 +47,7 @@ class Routes
                         // save the page
                         $cache = new Cache();
                         $cache->url = $url;
-                        $cache->ttl = new UTCDatetime((time() + $renderer->getTtl()) * 1000);
+                        $cache->ttl = $renderer->getTtl();
                         $cache->content = $content;
                         $cache->save();
                     }

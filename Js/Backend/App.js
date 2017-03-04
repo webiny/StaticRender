@@ -1,13 +1,13 @@
 import Webiny from 'Webiny';
-import Jobs from './Modules/Jobs'
+import PageCache from './Modules/PageCache'
 
-class CronManager extends Webiny.App {
+class StaticRender extends Webiny.App {
     constructor() {
-        super('CronManager.Backend');
+        super('StaticRender.Backend');
         this.modules = [
-            new Jobs(this)
+            new PageCache(this)
         ];
     }
 }
 
-Webiny.registerApp(new CronManager());
+Webiny.registerApp(new StaticRender());
