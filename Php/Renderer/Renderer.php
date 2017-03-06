@@ -70,7 +70,7 @@ class Renderer
 
     private function getRenderJsPath()
     {
-        return realpath(__DIR__.'/../../Js/Cli').'/Render.js';
+        return realpath(__DIR__.'/../../Js').'/Render.js';
     }
 
     private function renderPage()
