@@ -44,6 +44,8 @@ sudo ln -sf /usr/local/share/phantomjs-2.5.0-beta-ubuntu-trusty/bin/phantomjs /u
 
 sudo ln -sf /usr/local/share/phantomjs-2.5.0-beta-ubuntu-trusty/bin/phantomjs /usr/bin
 
+sudo chmod +x /usr/local/share/phantomjs-2.5.0-beta-ubuntu-trusty/bin/phantomjs
+
 phantomjs —version
 ```
 
