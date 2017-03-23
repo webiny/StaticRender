@@ -15,6 +15,9 @@
                     },
                     "refresh/{entry}" : {
                         "get" : true
+                    },
+                    "delete-all" : {
+                        "get" : true
                     }
                 }
             }

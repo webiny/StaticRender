@@ -12,6 +12,14 @@ class PageCacheList extends Webiny.Ui.View {
         this.state = {
             search: Webiny.Router.getQueryParams('_searchQuery')
         };
+
+        this.bindMethods('clearAllCache');
+    }
+
+    clearAllCache(){
+        return new Webiny.Api.Endpoint('/entities/static-render/cache').get('/delete-all').then(apiResponse => {
+            this.ui('myList').loadData();
+        });
     }
 }
 
@@ -41,6 +49,12 @@ PageCacheList.defaultProps = {
                                         <Ui.Icon icon="fa fa-bug"/>
                                         Fetch as Bot
                                     </Ui.Link>
+                                    <Ui.ClickConfirm message="Are you sure you want to clear all cache?">
+                                        <Ui.Link type="default" align="right" onClick={this.clearAllCache}>
+                                            <Ui.Icon icon="fa fa-trash-o"/>
+                                            Clear all cache
+                                        </Ui.Link>
+                                    </Ui.ClickConfirm>
                                 </Ui.View.Header>
 
                                 <Ui.View.Body>

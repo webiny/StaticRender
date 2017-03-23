@@ -14,8 +14,8 @@ Another reason for building this app is that other search engines, like Bing, Ya
 This is a Webiny app, meaning you need to use Webiny platform as the foundation for your website to use this application. To learn more about Webiny, head over to [http://www.webiny.com/](http://www.webiny.com/)
 
 Additionally you need to have the following items:
-* PhantomJs 2.5.0 or greater
 * Node 7 or greater
+* PhantomJs 2.5.0 or greater
 
 ### PhantomJs 2.5.0
 At the point of writing this file, Phantom 2.5.0-beta was released. From that version onwards PhantomJs supports ES6, which is a pre-requirement for Webiny apps to run and therefore to render them correctly.
