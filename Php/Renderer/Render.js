@@ -5,6 +5,8 @@
  *  2. path to phantomjs executable
  *  3. amount of miliseconds to wait before fetching the content
  *  4. (optional) debug mode - to enable pass "debug" as 4th parameter
+ *
+ *  Note: this js file needs to be inside the PHP folder, otherwise webpack will strip it out when deploying the app to production.
  */
 const phantom = require("phantom");
 
