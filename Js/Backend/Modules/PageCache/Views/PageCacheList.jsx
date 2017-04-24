@@ -2,8 +2,6 @@ import Webiny from 'Webiny';
 import ContentModal from './ContentModal';
 import FetchAsBotModal from './FetchAsBotModal';
 import RefreshCacheModal from './RefreshCacheModal';
-const Ui = Webiny.Ui.Components;
-const Table = Ui.List.Table;
 
 class PageCacheList extends Webiny.Ui.View {
     constructor(props) {
@@ -30,81 +28,84 @@ PageCacheList.defaultProps = {
             name: '_searchQuery'
         };
 
+        const {ViewSwitcher, View, Link, Icon, List, Dropdown, Input, Grid} = this.props;
+
         return (
-            <Ui.ViewSwitcher>
-                <Ui.ViewSwitcher.View view="pageCacheViewView" defaultView>
+            <ViewSwitcher>
+                <ViewSwitcher.View view="pageCacheViewView" defaultView>
                     {showView => (
                         <view>
-                            <Ui.View.List>
-                                <Ui.View.Header title="Page Cache">
-                                    <Ui.Link type="default" align="right" onClick={showView('fetchAsBotView')}>
-                                        <Ui.Icon icon="fa fa-bug"/>
+                            <View.List>
+                                <View.Header title="Page Cache">
+                                    <Link type="default" align="right" onClick={showView('fetchAsBotView')}>
+                                        <Icon icon="fa fa-bug"/>
                                         Fetch as Bot
-                                    </Ui.Link>
-                                </Ui.View.Header>
+                                    </Link>
+                                </View.Header>
 
-                                <Ui.View.Body>
-                                    <Ui.List ui="myList" {...listProps}>
+                                <View.Body>
+                                    <List ui="myList" {...listProps}>
 
-                                        <Ui.List.FormFilters>
+                                        <List.FormFilters>
                                             {(applyFilters, resetFilters) => (
-                                                <Ui.Grid.Row>
-                                                    <Ui.Grid.Col all={12}>
-                                                        <Ui.Input {...searchProps} onEnter={applyFilters()}/>
-                                                    </Ui.Grid.Col>
-                                                </Ui.Grid.Row>
+                                                <Grid.Row>
+                                                    <Grid.Col all={12}>
+                                                        <Input {...searchProps} onEnter={applyFilters()}/>
+                                                    </Grid.Col>
+                                                </Grid.Row>
                                             )}
-                                        </Ui.List.FormFilters>
+                                        </List.FormFilters>
 
-                                        <Table>
-                                            <Table.Row>
-                                                <Table.Field name="url" align="left" label="Url" sort="url"/>
-                                                <Table.TimeAgoField name="ttl" align="left" label="Expires" sort="ttl"/>
-                                                <Table.TimeAgoField name="createdOn" align="left" label="Created" sort="createdOn"/>
+                                        <List.Table>
+                                            <List.Table.Row>
+                                                <List.Table.Field name="url" align="left" label="Url" sort="url"/>
+                                                <List.Table.TimeAgoField name="ttl" align="left" label="Expires" sort="ttl"/>
+                                                <List.Table.TimeAgoField name="createdOn" align="left" label="Created" sort="createdOn"/>
 
-                                                <Table.Actions>
-                                                    <Table.Action
+                                                <List.Table.Actions>
+                                                    <List.Table.Action
                                                         label="View content"
                                                         icon="fa-code"
                                                         type="primary"
                                                         align="right"
                                                         onClick={showView('contentView')}/>
-                                                    <Table.Action
+                                                    <List.Table.Action
                                                         label="Refresh cache"
                                                         icon="fa-refresh"
                                                         type="primary"
                                                         align="right"
                                                         onClick={showView('refreshCacheView')}/>
-                                                    <Ui.Dropdown.Divider/>
-                                                    <Table.DeleteAction label="Purge cache"/>
-                                                </Table.Actions>
-
-                                            </Table.Row>
-                                        </Table>
-                                        <Ui.List.Pagination/>
-                                    </Ui.List>
-                                </Ui.View.Body>
-                            </Ui.View.List>
+                                                    <Dropdown.Divider/>
+                                                    <List.Table.DeleteAction label="Purge cache"/>
+                                                </List.Table.Actions>
+                                            </List.Table.Row>
+                                        </List.Table>
+                                        <List.Pagination/>
+                                    </List>
+                                </View.Body>
+                            </View.List>
                         </view>
                     )}
-                </Ui.ViewSwitcher.View>
+                </ViewSwitcher.View>
 
-                <Ui.ViewSwitcher.View view="contentView" modal>
+                <ViewSwitcher.View view="contentView" modal>
                     {(showView, data) => <ContentModal {...{showView, data}} />}
-                </Ui.ViewSwitcher.View>
+                </ViewSwitcher.View>
 
-                <Ui.ViewSwitcher.View view="fetchAsBotView" modal>
+                <ViewSwitcher.View view="fetchAsBotView" modal>
                     {(showView, data) => <FetchAsBotModal {...{showView, data}} />}
-                </Ui.ViewSwitcher.View>
+                </ViewSwitcher.View>
 
-                <Ui.ViewSwitcher.View view="refreshCacheView" modal>
+                <ViewSwitcher.View view="refreshCacheView" modal>
                     {(showView, data) => <RefreshCacheModal {...{showView, data}} />}
-                </Ui.ViewSwitcher.View>
+                </ViewSwitcher.View>
 
 
-            </Ui.ViewSwitcher>
+            </ViewSwitcher>
         );
     }
 };
 
-export default PageCacheList;
+export default Webiny.createComponent(PageCacheList, {modules: [
+    'ViewSwitcher', 'View', 'Link', 'Icon', 'List', 'Dropdown', 'Input', 'Grid'
+]});

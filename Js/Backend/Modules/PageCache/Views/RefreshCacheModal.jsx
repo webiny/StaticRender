@@ -1,5 +1,4 @@
 import Webiny from 'Webiny';
-const Ui = Webiny.Ui.Components;
 
 class RefreshCacheModal extends Webiny.Ui.ModalComponent {
 
@@ -42,32 +41,32 @@ class RefreshCacheModal extends Webiny.Ui.ModalComponent {
 
     renderDialog() {
         return (
-            <Ui.Modal.Dialog className="modal-full-width">
-                <Ui.Modal.Header title="Refreshing cache ..."/>
-                <Ui.Modal.Body>
-                    <Ui.Alert type={this.state.status}>{this.state.message}</Ui.Alert>
+            <Modal.Dialog className="modal-full-width">
+                <Modal.Header title="Refreshing cache ..."/>
+                <Modal.Body>
+                    <Alert type={this.state.status}>{this.state.message}</Alert>
 
                     {this.state.jobRunning && (
                         <div style={{position: 'relative'}}>
                             <div className="loading-overlay">
                                 <div className="loading-overlay__icon-wrapper">
-                                    <div className="loading-overlay__icon"></div>
+                                    <div className="loading-overlay__icon"/>
                                 </div>
                             </div>
                         </div>
                     )}
 
-                    {(!this.state.jobRunning && this.state.status == 'success') && (
-                        <Ui.SimpleCodeEditor readOnly={true} label="Content" name="content" value={this.state.content}/>
+                    {(!this.state.jobRunning && this.state.status === 'success') && (
+                        <SimpleCodeEditor readOnly={true} label="Content" name="content" value={this.state.content}/>
                     )}
 
-                </Ui.Modal.Body>
-                <Ui.Modal.Footer>
-                    <Ui.Button label="Close" disabled={this.state.jobRunning && 'disabled'} onClick={this.hide}/>
-                </Ui.Modal.Footer>
-            </Ui.Modal.Dialog>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button label="Close" disabled={this.state.jobRunning && 'disabled'} onClick={this.hide}/>
+                </Modal.Footer>
+            </Modal.Dialog>
         );
     }
 }
 
-export default RefreshCacheModal;
+export default Webiny.createComponent(RefreshCacheModal, {modules: ['Modal', 'Alert', 'SimpleCodeEditor', 'Button']});

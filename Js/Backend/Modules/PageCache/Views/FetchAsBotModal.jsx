@@ -1,5 +1,4 @@
 import Webiny from 'Webiny';
-const Ui = Webiny.Ui.Components;
 
 class FetchAsBotModal extends Webiny.Ui.ModalComponent {
 
@@ -26,7 +25,7 @@ class FetchAsBotModal extends Webiny.Ui.ModalComponent {
     }
 
     fetchUrl(form) {
-        form.submit().then(()=> {
+        form.submit().then(() => {
             console.log('is valid:' + form.isValid());
             console.log('has error:' + form.hasError());
             if (form.isValid) {
@@ -56,40 +55,46 @@ class FetchAsBotModal extends Webiny.Ui.ModalComponent {
             onSuccessMessage: null
         };
 
-        return (
-            <Ui.Modal.Dialog className="modal-full-width">
-                <Ui.Modal.Header title="Fetch as Bot"/>
-                <Ui.Modal.Body>
-                    <Ui.Alert type={this.state.status}>{this.state.message}</Ui.Alert>
+        const {Modal, Alert, Form, Grid, Input, SimpleCodeEditor, Button} = this.props;
 
-                    {this.state.jobStatus == 'waiting' && (
+        return (
+            <Modal.Dialog className="modal-full-width">
+                <Modal.Header title="Fetch as Bot"/>
+                <Modal.Body>
+                    <Alert type={this.state.status}>{this.state.message}</Alert>
+                    {this.state.jobStatus === 'waiting' && (
                         <div>
-                            <Ui.Form {...formProps}>
+                            <Form {...formProps}>
                                 {(model, form) => (
-                                    <Ui.Grid.Row>
-                                        <Ui.Grid.Col all={12}>
-                                            <Ui.Input label="Url" name="url" validate="required,url"
-                                                      placeholder="Type the url and press enter" onEnter={form.submit}/>
-                                        </Ui.Grid.Col>
-                                    </Ui.Grid.Row>
+                                    <Grid.Row>
+                                        <Grid.Col all={12}>
+                                            <Input
+                                                label="Url"
+                                                name="url"
+                                                validate="required,url"
+                                                placeholder="Type the url and press enter"
+                                                onEnter={form.submit}/>
+                                        </Grid.Col>
+                                    </Grid.Row>
                                 )}
-                            </Ui.Form>
-                            <Ui.Grid.Col all={12}>
-                                {this.state.content != '' && (
-                                    <Ui.SimpleCodeEditor readOnly={true} label="Content" name="content" value={this.state.content}/>
+                            </Form>
+                            <Grid.Col all={12}>
+                                {this.state.content !== '' && (
+                                    <SimpleCodeEditor readOnly={true} label="Content" name="content" value={this.state.content}/>
                                 )}
-                            </Ui.Grid.Col>
-                            <div className="clearfix"></div>
+                            </Grid.Col>
+                            <div className="clearfix"/>
                         </div>
                     )}
-
-                </Ui.Modal.Body>
-                <Ui.Modal.Footer>
-                    <Ui.Button label="Close" onClick={this.hide}/>
-                </Ui.Modal.Footer>
-            </Ui.Modal.Dialog>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button label="Close" onClick={this.hide}/>
+                </Modal.Footer>
+            </Modal.Dialog>
         );
     }
 }
 
-export default FetchAsBotModal;
+export default Webiny.createComponent(FetchAsBotModal, {
+    modules: ['Modal', 'Alert', 'Form', 'Grid', 'Input', 'SimpleCodeEditor', 'Button']
+});

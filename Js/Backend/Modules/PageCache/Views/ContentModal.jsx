@@ -1,5 +1,4 @@
 import Webiny from 'Webiny';
-const Ui = Webiny.Ui.Components;
 
 class ContentModal extends Webiny.Ui.ModalComponent {
 
@@ -24,18 +23,19 @@ class ContentModal extends Webiny.Ui.ModalComponent {
     }
 
     renderDialog() {
+        const {Modal, Button, SimpleCodeEditor} = this.props;
         return (
-            <Ui.Modal.Dialog className="modal-full-width">
-                <Ui.Modal.Header title="Page Cache"/>
-                <Ui.Modal.Body>
-                    <Ui.SimpleCodeEditor readOnly={true} label="Content" name="content" value={this.state.content}/>
-                </Ui.Modal.Body>
-                <Ui.Modal.Footer>
-                    <Ui.Button label="Close" onClick={this.hide}/>
-                </Ui.Modal.Footer>
-            </Ui.Modal.Dialog>
+            <Modal.Dialog className="modal-full-width">
+                <Modal.Header title="Page Cache"/>
+                <Modal.Body>
+                    <SimpleCodeEditor readOnly={true} label="Content" name="content" value={this.state.content}/>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button label="Close" onClick={this.hide}/>
+                </Modal.Footer>
+            </Modal.Dialog>
         );
     }
 }
 
-export default ContentModal;
+export default Webiny.createComponent(ContentModal, {modules: ['Modal', 'Button', 'SimpleCodeEditor']});
