@@ -55,10 +55,10 @@ class FetchAsBotModal extends Webiny.Ui.ModalComponent {
             onSuccessMessage: null
         };
 
-        const {Modal, Alert, Form, Grid, Input, SimpleCodeEditor, Button} = this.props;
+        const {Modal, Alert, Form, Grid, Input, CodeEditor, Button} = this.props;
 
         return (
-            <Modal.Dialog className="modal-full-width">
+            <Modal.Dialog wide={true}>
                 <Modal.Header title="Fetch as Bot"/>
                 <Modal.Body>
                     <Alert type={this.state.status}>{this.state.message}</Alert>
@@ -80,7 +80,7 @@ class FetchAsBotModal extends Webiny.Ui.ModalComponent {
                             </Form>
                             <Grid.Col all={12}>
                                 {this.state.content !== '' && (
-                                    <SimpleCodeEditor readOnly={true} label="Content" name="content" value={this.state.content}/>
+                                    <CodeEditor readOnly={true} label="Content" name="content" value={this.state.content}/>
                                 )}
                             </Grid.Col>
                             <div className="clearfix"/>
@@ -96,5 +96,5 @@ class FetchAsBotModal extends Webiny.Ui.ModalComponent {
 }
 
 export default Webiny.createComponent(FetchAsBotModal, {
-    modules: ['Modal', 'Alert', 'Form', 'Grid', 'Input', 'SimpleCodeEditor', 'Button']
+    modules: ['Modal', 'Alert', 'Form', 'Grid', 'Input', 'CodeEditor', 'Button']
 });
