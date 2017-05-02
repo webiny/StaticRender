@@ -57,7 +57,7 @@ class RefreshCacheModal extends Webiny.Ui.ModalComponent {
                     )}
 
                     {(!this.state.jobRunning && this.state.status === 'success') && (
-                        <SimpleCodeEditor readOnly={true} label="Content" name="content" value={this.state.content}/>
+                        <CodeEditor readOnly={true} label="Content" name="content" value={this.state.content}/>
                     )}
 
                 </Modal.Body>
@@ -69,4 +69,4 @@ class RefreshCacheModal extends Webiny.Ui.ModalComponent {
     }
 }
 
-export default Webiny.createComponent(RefreshCacheModal, {modules: ['Modal', 'Alert', 'SimpleCodeEditor', 'Button']});
+export default Webiny.createComponent(RefreshCacheModal, {modules: ['Modal', 'Alert', 'CodeEditor', 'Button']});
