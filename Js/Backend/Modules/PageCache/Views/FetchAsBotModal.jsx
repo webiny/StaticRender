@@ -58,7 +58,7 @@ class FetchAsBotModal extends Webiny.Ui.ModalComponent {
         const {Modal, Alert, Form, Grid, Input, CodeEditor, Button} = this.props;
 
         return (
-            <Modal.Dialog className="modal-full-width">
+            <Modal.Dialog wide={true}>
                 <Modal.Header title="Fetch as Bot"/>
                 <Modal.Body>
                     <Alert type={this.state.status}>{this.state.message}</Alert>
