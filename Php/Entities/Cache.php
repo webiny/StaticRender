@@ -9,7 +9,7 @@
 namespace Apps\StaticRender\Php\Entities;
 
 
-use Apps\Core\Php\DevTools\Entity\AbstractEntity;
+use Apps\Webiny\Php\DevTools\Entity\AbstractEntity;
 use Apps\StaticRender\Php\Renderer\Renderer;
 use Webiny\Component\Mongo\Index\SingleIndex;
 
