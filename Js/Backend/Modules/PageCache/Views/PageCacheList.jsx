@@ -10,6 +10,14 @@ class PageCacheList extends Webiny.Ui.View {
         this.state = {
             search: Webiny.Router.getQueryParams('_searchQuery')
         };
+
+        this.bindMethods('clearAllCache');
+    }
+
+    clearAllCache(){
+        return new Webiny.Api.Endpoint('/entities/static-render/cache').get('/delete-all').then(apiResponse => {
+            this.ui('myList').loadData();
+        });
     }
 }
 
@@ -28,7 +36,7 @@ PageCacheList.defaultProps = {
             name: '_searchQuery'
         };
 
-        const {ViewSwitcher, View, Link, Icon, List, Dropdown, Input, Grid} = this.props;
+        const {ViewSwitcher, View, Link, Icon, List, Dropdown, Input, Grid, ClickConfirm} = this.props;
 
         return (
             <ViewSwitcher>
@@ -41,6 +49,12 @@ PageCacheList.defaultProps = {
                                         <Icon icon="fa fa-bug"/>
                                         Fetch as Bot
                                     </Link>
+                                    <Ui.ClickConfirm message="Are you sure you want to clear all cache?">
+                                        <Ui.Link type="default" align="right" onClick={this.clearAllCache}>
+                                            <Ui.Icon icon="fa fa-trash-o"/>
+                                            Clear all cache
+                                        </Ui.Link>
+                                    </Ui.ClickConfirm>
                                 </View.Header>
 
                                 <View.Body>
@@ -107,5 +121,5 @@ PageCacheList.defaultProps = {
 };
 
 export default Webiny.createComponent(PageCacheList, {modules: [
-    'ViewSwitcher', 'View', 'Link', 'Icon', 'List', 'Dropdown', 'Input', 'Grid'
+    'ViewSwitcher', 'View', 'Link', 'Icon', 'List', 'Dropdown', 'Input', 'Grid', 'ClickConfirm'
 ]});

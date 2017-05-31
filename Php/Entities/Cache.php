@@ -69,5 +69,18 @@ class Cache extends AbstractEntity
 
             return $entry->toArray();
         });
+
+        /**
+         * @api.name Deletes all cache entries.
+         * @api.description Deletes all cache entries.
+         */
+        $this->api('GET', 'delete-all', function () {
+            $entries = Cache::find();
+            foreach ($entries as $e){
+                $e->delete(true);
+            }
+
+            return true;
+        });
     }
 }
