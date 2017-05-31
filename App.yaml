@@ -8,7 +8,7 @@ AuthorLink: http://www.webiny.com
 AuthorEmail: info@webiny.com
 
 Events:
-    Core:
+    Webiny:
         Bootstrap:
             Request:
                 - {Handler: Php/RequestHandlers/Routes, Priority: 389}
