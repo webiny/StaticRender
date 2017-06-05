@@ -46,7 +46,7 @@ class Renderer
 
     private function loadConfig()
     {
-        $this->config = $this->wConfig()->getConfig()->get('Application.StaticRender', false);
+        $this->config = $this->wConfig()->get('StaticRender', false);
 
         if (!$this->config) {
             throw new StaticRenderException('StaticRender config is missing.');
