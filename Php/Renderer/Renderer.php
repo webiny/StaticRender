@@ -41,6 +41,7 @@ class Renderer
     public function getTtl()
     {
         $ttl = $this->config->get('Settings.CacheTtl', 600);
+
         return new UTCDatetime((time() + $ttl) * 1000);
     }
 
@@ -70,18 +71,13 @@ class Renderer
 
     private function getRenderJsPath()
     {
-        return realpath(__DIR__).'/Render.js';
+        return realpath(__DIR__) . '/Render.js';
     }
 
     private function renderPage()
     {
         // node Render.js $url $pathToPhantomJs $timeout
-        $command = $this->getNodePath()
-            .' ' . $this->getRenderJsPath()
-            .' "'.$this->url.'"'
-            .' "'.$this->getPhantomJsPath().'"'
-            .' '.$this->getResourceTimeout()
-            .' 2>&1';
+        $command = $this->getNodePath() . ' ' . $this->getRenderJsPath() . ' "' . $this->url . '"' . ' "' . $this->getPhantomJsPath() . '"' . ' ' . $this->getResourceTimeout() . ' 2>&1';
 
         $output = shell_exec($command);
 

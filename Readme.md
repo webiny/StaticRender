@@ -53,13 +53,12 @@ phantomjs —version
 The app has few config parameters. Here is a sample config and the explanation below:
 
 ```yaml
-Application:
-    StaticRender:
-        Settings:
-            ResourceTimeout: 1000
-            CacheTtl: 86400
-            PathToPhantomJs: '/usr/local/bin/phantomjs'
-            PathToNode: '/home/vagrant/.nvm/versions/node/v7.7.1/bin/node'
+StaticRender:
+    Settings:
+        ResourceTimeout: 1000
+        CacheTtl: 86400
+        PathToPhantomJs: '/usr/local/bin/phantomjs'
+        PathToNode: '/home/vagrant/.nvm/versions/node/v7.7.1/bin/node'
 ```
 
 `ResourceTimeout`
