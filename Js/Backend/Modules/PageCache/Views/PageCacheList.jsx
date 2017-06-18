@@ -15,8 +15,8 @@ class PageCacheList extends Webiny.Ui.View {
     }
 
     clearAllCache(){
-        return new Webiny.Api.Endpoint('/entities/static-render/cache').get('/delete-all').then(apiResponse => {
-            this.ui('myList').loadData();
+        return new Webiny.Api.Endpoint('/entities/static-render/cache').get('/delete-all').then(() => {
+            this.cacheList.loadData();
         });
     }
 }
@@ -25,6 +25,7 @@ PageCacheList.defaultProps = {
 
     renderer() {
         const listProps = {
+            ref: ref => this.cacheList = ref,
             api: '/entities/static-render/cache',
             fields: 'url,ttl,createdOn',
             connectToRouter: true,
@@ -49,17 +50,16 @@ PageCacheList.defaultProps = {
                                         <Icon icon="fa fa-bug"/>
                                         Fetch as Bot
                                     </Link>
-                                    <Ui.ClickConfirm message="Are you sure you want to clear all cache?">
-                                        <Ui.Link type="default" align="right" onClick={this.clearAllCache}>
-                                            <Ui.Icon icon="fa fa-trash-o"/>
+                                    <ClickConfirm message="Are you sure you want to clear all cache?">
+                                        <Link type="default" align="right" onClick={this.clearAllCache}>
+                                            <Icon icon="fa fa-trash-o"/>
                                             Clear all cache
-                                        </Ui.Link>
-                                    </Ui.ClickConfirm>
+                                        </Link>
+                                    </ClickConfirm>
                                 </View.Header>
 
                                 <View.Body>
-                                    <List ui="myList" {...listProps}>
-
+                                    <List {...listProps}>
                                         <List.FormFilters>
                                             {(applyFilters, resetFilters) => (
                                                 <Grid.Row>
