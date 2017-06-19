@@ -59,37 +59,39 @@ class FetchAsBotModal extends Webiny.Ui.ModalComponent {
 
         return (
             <Modal.Dialog wide={true}>
-                <Modal.Header title="Fetch as Bot"/>
-                <Modal.Body>
-                    <Alert type={this.state.status}>{this.state.message}</Alert>
-                    {this.state.jobStatus === 'waiting' && (
-                        <div>
-                            <Form {...formProps}>
-                                {(model, form) => (
-                                    <Grid.Row>
-                                        <Grid.Col all={12}>
-                                            <Input
-                                                label="Url"
-                                                name="url"
-                                                validate="required,url"
-                                                placeholder="Type the url and press enter"
-                                                onEnter={form.submit}/>
-                                        </Grid.Col>
-                                    </Grid.Row>
-                                )}
-                            </Form>
-                            <Grid.Col all={12}>
-                                {this.state.content !== '' && (
-                                    <CodeEditor readOnly={true} label="Content" name="content" value={this.state.content}/>
-                                )}
-                            </Grid.Col>
-                            <div className="clearfix"/>
-                        </div>
-                    )}
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button label="Close" onClick={this.hide}/>
-                </Modal.Footer>
+                <Modal.Content>
+                    <Modal.Header title="Fetch as Bot"/>
+                    <Modal.Body>
+                        <Alert type={this.state.status}>{this.state.message}</Alert>
+                        {this.state.jobStatus === 'waiting' && (
+                            <div>
+                                <Form {...formProps}>
+                                    {(model, form) => (
+                                        <Grid.Row>
+                                            <Grid.Col all={12}>
+                                                <Input
+                                                    label="Url"
+                                                    name="url"
+                                                    validate="required,url"
+                                                    placeholder="Type the url and press enter"
+                                                    onEnter={form.submit}/>
+                                            </Grid.Col>
+                                        </Grid.Row>
+                                    )}
+                                </Form>
+                                <Grid.Col all={12}>
+                                    {this.state.content !== '' && (
+                                        <CodeEditor readOnly={true} label="Content" name="content" value={this.state.content}/>
+                                    )}
+                                </Grid.Col>
+                                <div className="clearfix"/>
+                            </div>
+                        )}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button label="Close" onClick={this.hide}/>
+                    </Modal.Footer>
+                </Modal.Content>
             </Modal.Dialog>
         );
     }

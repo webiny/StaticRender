@@ -26,13 +26,15 @@ class ContentModal extends Webiny.Ui.ModalComponent {
         const {Modal, Button, CodeEditor} = this.props;
         return (
             <Modal.Dialog className="modal-full-width">
-                <Modal.Header title="Page Cache"/>
-                <Modal.Body>
-                    <CodeEditor readOnly={true} label="Content" name="content" value={this.state.content}/>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button label="Close" onClick={this.hide}/>
-                </Modal.Footer>
+                <Modal.Content>
+                    <Modal.Header title="Page Cache"/>
+                    <Modal.Body>
+                        <CodeEditor readOnly={true} label="Content" name="content" value={this.state.content}/>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button label="Close" onClick={this.hide}/>
+                    </Modal.Footer>
+                </Modal.Content>
             </Modal.Dialog>
         );
     }

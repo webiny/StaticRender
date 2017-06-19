@@ -42,28 +42,30 @@ class RefreshCacheModal extends Webiny.Ui.ModalComponent {
     renderDialog() {
         return (
             <Modal.Dialog className="modal-full-width">
-                <Modal.Header title="Refreshing cache ..."/>
-                <Modal.Body>
-                    <Alert type={this.state.status}>{this.state.message}</Alert>
+                <Modal.Content>
+                    <Modal.Header title="Refreshing cache ..."/>
+                    <Modal.Body>
+                        <Alert type={this.state.status}>{this.state.message}</Alert>
 
-                    {this.state.jobRunning && (
-                        <div style={{position: 'relative'}}>
-                            <div className="loading-overlay">
-                                <div className="loading-overlay__icon-wrapper">
-                                    <div className="loading-overlay__icon"/>
+                        {this.state.jobRunning && (
+                            <div style={{position: 'relative'}}>
+                                <div className="loading-overlay">
+                                    <div className="loading-overlay__icon-wrapper">
+                                        <div className="loading-overlay__icon"/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        )}
 
-                    {(!this.state.jobRunning && this.state.status === 'success') && (
-                        <CodeEditor readOnly={true} label="Content" name="content" value={this.state.content}/>
-                    )}
+                        {(!this.state.jobRunning && this.state.status === 'success') && (
+                            <CodeEditor readOnly={true} label="Content" name="content" value={this.state.content}/>
+                        )}
 
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button label="Close" disabled={this.state.jobRunning && 'disabled'} onClick={this.hide}/>
-                </Modal.Footer>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button label="Close" disabled={this.state.jobRunning && 'disabled'} onClick={this.hide}/>
+                    </Modal.Footer>
+                </Modal.Content>
             </Modal.Dialog>
         );
     }
