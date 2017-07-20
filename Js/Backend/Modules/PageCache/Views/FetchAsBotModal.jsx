@@ -1,3 +1,4 @@
+import React from 'react';
 import Webiny from 'Webiny';
 
 class FetchAsBotModal extends Webiny.Ui.ModalComponent {

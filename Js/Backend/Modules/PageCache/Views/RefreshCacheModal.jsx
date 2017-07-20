@@ -1,3 +1,4 @@
+import React from 'react';
 import Webiny from 'Webiny';
 
 class RefreshCacheModal extends Webiny.Ui.ModalComponent {

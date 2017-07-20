@@ -1,3 +1,4 @@
+import React from 'react';
 import Webiny from 'Webiny';
 import ContentModal from './ContentModal';
 import FetchAsBotModal from './FetchAsBotModal';
