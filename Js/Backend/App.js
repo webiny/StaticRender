@@ -1,4 +1,4 @@
-import Webiny from 'Webiny';
+import Webiny from 'webiny';
 import PageCache from './Modules/PageCache'
 
 class StaticRender extends Webiny.App {

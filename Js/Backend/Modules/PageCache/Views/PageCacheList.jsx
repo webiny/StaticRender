@@ -1,5 +1,5 @@
 import React from 'react';
-import Webiny from 'Webiny';
+import Webiny from 'webiny';
 import ContentModal from './ContentModal';
 import FetchAsBotModal from './FetchAsBotModal';
 import RefreshCacheModal from './RefreshCacheModal';
