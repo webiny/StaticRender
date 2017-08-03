@@ -1,3 +1,4 @@
+import React from 'react';
 import Webiny from 'webiny';
 import Views from './Views/Views';
 
@@ -9,9 +10,9 @@ class PageCache extends Webiny.App.Module {
         const role = 'static-render';
 
         this.registerMenus(
-            new Menu('System', [
-                new Menu('Static Render', 'StaticRender.PageCache').setRole(role)
-            ], 'icon-tools')
+            <Menu label="System" icon="icon-bell">
+                <Menu label="Static Render" route="StaticRender.PageCache" role={role}/>
+            </Menu>
         );
 
         this.registerRoutes(
