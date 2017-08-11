@@ -49,8 +49,9 @@ phantom.create([
             setTimeout(() => {
                 page.property('content').then(function (content) {
                     console.log(content);
-                    page.close();
-                    ph.exit();
+                    page.close().then(() => {
+                        ph.exit();
+                    });
                 });
             }, args[2])
         });
