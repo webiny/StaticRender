@@ -55,7 +55,8 @@ phantom.create([
                 page.evaluate(function () {
                     if (typeof window.webinyFirstRenderDone === 'function') {
                         if (window.webinyFirstRenderDone()) {
-                            return document.documentElement.innerHTML;
+                            // we need to remove all the script elements from the static page (can cause problems with googlebot)
+                            return document.documentElement.innerHTML.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
                         }
                     }
                     return false;
