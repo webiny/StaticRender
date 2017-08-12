@@ -3,7 +3,7 @@
  * App takes 3 arguments in the following order:
  *  1. which url to render
  *  2. path to phantomjs executable
- *  3. amount of miliseconds to wait before fetching the content
+ *  3. snapshot interval
  *  4. (optional) debug mode - to enable pass "debug" as 4th parameter
  *
  *  Note: this js file needs to be inside the PHP folder, otherwise webpack will strip it out when deploying the app to production.
@@ -12,8 +12,9 @@ const phantom = require("phantom");
 
 const args = process.argv.slice(2);
 const url = args[0];
-
+const snapshotInterval = args[2] || false;
 const debug = args[3] || false;
+const maxExecutionTime = 15000; // 15s
 
 phantom.create([
     '--ignore-ssl-errors=yes',
@@ -24,8 +25,8 @@ phantom.create([
     '--offline-storage-quota=5000'], {
     phantomPath: args[1],
     logLevel: (debug) ? 'info' : 'error'
-}).then(function (ph) {
-    ph.createPage().then(function (page) {
+}).then((ph) => {
+    ph.createPage().then((page) => {
 
         if (debug) {
             page.on("onConsoleMessage", function (msg, lineNum, sourceId) {
@@ -45,15 +46,51 @@ phantom.create([
         page.property('viewportSize', {width: 1440, height: 768});
         page.property('customHeaders', {"XWebinyStaticRender": "true"});
 
-        page.open(url).then(function (status) {
-            setTimeout(() => {
-                page.property('content').then(function (content) {
-                    console.log(content);
-                    page.close().then(() => {
-                        ph.exit();
-                    });
+
+        page.open(url).then((status) => {
+
+            let runs = maxExecutionTime / snapshotInterval;
+            let webinyStartedInterval = setInterval(() => {
+
+                page.evaluate(function () {
+                    if (typeof window.webinyFirstRenderDone === 'function') {
+                        if (window.webinyFirstRenderDone()) {
+                            return document.documentElement.innerHTML;
+                        }
+                    }
+                    return false;
+                }).then(content => {
+                    if (content) {
+                        clearInterval(webinyStartedInterval);
+
+                        console.log(content);
+                        page.close().then(() => {
+                            ph.exit();
+                        }).catch(error => {
+                            console.log(error);
+                            ph.exit();
+                        });
+
+                        return content;
+                    }
+                }).catch(error => {
+                    console.log(error);
+                    ph.exit();
                 });
-            }, args[2])
+
+                runs--;
+                if (runs < 0) {
+                    ph.exit();
+                }
+
+            }, snapshotInterval);
+
+        }).catch(error => {
+            console.log(error);
+            ph.exit();
         });
+    }).catch(error => {
+        console.log(error);
+        ph.exit();
     });
 });
