@@ -10,7 +10,7 @@ class PageCache extends Webiny.App.Module {
         const role = 'static-render';
 
         this.registerMenus(
-            <Menu label="System" icon="icon-bell">
+            <Menu label="System" icon="icon-tools">
                 <Menu label="Static Render" route="StaticRender.PageCache" role={role}/>
             </Menu>
         );
