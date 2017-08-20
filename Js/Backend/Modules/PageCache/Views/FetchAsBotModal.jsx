@@ -82,7 +82,7 @@ class FetchAsBotModal extends Webiny.Ui.ModalComponent {
                                 </Form>
                                 <Grid.Col all={12}>
                                     {this.state.content !== '' && (
-                                        <CodeEditor readOnly={true} label="Content" name="content" value={this.state.content}/>
+                                        <CodeEditor readOnly={true} label="Content" name="content" value={this.state.content} height="auto" autoFormat={true}/>
                                     )}
                                 </Grid.Col>
                                 <div className="clearfix"/>

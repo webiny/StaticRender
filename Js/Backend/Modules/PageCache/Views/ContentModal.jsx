@@ -10,7 +10,10 @@ class ContentModal extends Webiny.Ui.ModalComponent {
             content: '',
             cacheId: this.props.data.id
         };
+    }
 
+    componentDidMount() {
+        super.componentDidMount();
         this.getContent();
     }
 
@@ -18,19 +21,20 @@ class ContentModal extends Webiny.Ui.ModalComponent {
         const api = new Webiny.Api.Endpoint('/entities/static-render/cache');
         return api.get('/' + this.state.cacheId).then(ar => {
             this.setState({
-                content: ar.getData('content')
+                content: ar.getData('entity.content')
             });
         });
     }
 
     renderDialog() {
         const {Modal, Button, CodeEditor} = this.props;
+
         return (
-            <Modal.Dialog className="modal-full-width">
+            <Modal.Dialog wide={true}>
                 <Modal.Content>
                     <Modal.Header title="Page Cache"/>
                     <Modal.Body>
-                        <CodeEditor readOnly={true} label="Content" name="content" value={this.state.content}/>
+                        {this.state.content!='' && <CodeEditor readOnly={true} label="Content" value={this.state.content} height="auto" autoFormat={true}/>}
                     </Modal.Body>
                     <Modal.Footer>
                         <Button label="Close" onClick={this.hide}/>
