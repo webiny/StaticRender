@@ -66,7 +66,7 @@ class Routes
 
     private function isBot()
     {
-        return $this->str($this->wRequest()->server()->httpUserAgent())->match('/bot|crawl|slurp|spider|curl|facebookexternalhit/i');
+        return $this->str($this->wRequest()->server()->httpUserAgent())->match('/bot|crawl|slurp|spider|curl|facebookexternalhit|wget/i');
     }
 
     private function isStaticRenderRequest()
