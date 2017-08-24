@@ -30,8 +30,10 @@ class Renderer
     public function __construct($url)
     {
         $this->url = $url;
+
         $this->loadConfig();
         $this->renderPage();
+        $this->cleanupProcesses();
     }
 
     /**
@@ -65,7 +67,7 @@ class Renderer
 
     private function getResourceTimeout()
     {
-        return $this->config->get('Settings.ResourceTimeout', 5000);
+        return $this->config->get('Settings.ResourceTimeout', 2000);
     }
 
     private function getPhantomJsPath()
@@ -86,19 +88,50 @@ class Renderer
     private function renderPage()
     {
         // node Render.js $url $pathToPhantomJs $timeout
-        $command = $this->getNodePath() . ' ' . $this->getRenderJsPath() . ' "' . $this->url . '"' . ' "' . $this->getPhantomJsPath() . '"' . ' ' . $this->getResourceTimeout() . ' 2>&1';
+        $command = $this->getNodePath() . ' ' . $this->getRenderJsPath() . ' "' . $this->url . '"' . ' "' . $this->getPhantomJsPath() . '"' . ' ' . $this->getResourceTimeout() . ' 2>&1 & echo $!';
 
         $this->content = shell_exec($command);
 
-        // check if we have the status code
-        $str = strtok($this->content, "\n");
-        if (strpos($str, 'status code:') !== false) {
-            $this->statusCode = trim(str_replace('status code:', '', $str));
+        // first line is the pid
+        // second line is the status code
+        // all other lines are the content
+        $this->content = explode("\n", $this->content);
 
-            $this->content = substr($this->content, strpos($str, "\n") + strlen($str));
+        // get pid
+        $pid = $this->content[0];
+
+        // kill the process
+        exec("kill -9 $pid");
+
+        // check if we have the status code
+        if (isset($this->content[1]) && strpos($this->content[1], 'status code:') !== false) {
+            $this->statusCode = trim(str_replace('status code:', '', $this->content[1]));
+
+            array_shift($this->content);
+            array_shift($this->content);
         } else {
             $this->statusCode = 503;
             $this->content = '';
+        }
+    }
+
+    private function cleanupProcesses()
+    {
+        $ps = shell_exec('ps -eo pid,lstart,command | grep phantomjs');
+        $ps = explode("\n", $ps);
+
+        foreach ($ps as $proc) {
+            $procData = explode(' ', $proc);
+            if (isset($procData[1])) {
+                $pid = $procData[1];
+                $time = strtotime($procData[2] . ' ' . $procData[3] . ' ' . $procData[4] . ' ' . $procData[5] . ' ' . $procData[6]);
+                $runTime = time() - $time;
+
+                // we will kill any script running over 15s
+                if ($runTime > 15) {
+                    exec("kill -9 $pid");
+                }
+            }
         }
     }
 }
