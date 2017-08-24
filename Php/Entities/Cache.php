@@ -20,6 +20,8 @@ use Webiny\Component\Mongo\Index\SingleIndex;
  * @property string  $content
  * @property string  $ttl
  * @property integer $statusCode
+ * @property string  $userAgent
+ * @property string  $ip
  *
  * @package Apps\StaticRender\Php\Entities
  */
@@ -39,6 +41,8 @@ class Cache extends AbstractEntity
         $this->attr('url')->char()->setValidators('required,unique')->setToArrayDefault();
         $this->attr('ttl')->datetime()->setToArrayDefault();
         $this->attr('content')->char()->setToArrayDefault();
+        $this->attr('userAgent')->char()->setToArrayDefault();
+        $this->attr('ip')->char()->setToArrayDefault();
         $this->attr('statusCode')->integer()->setToArrayDefault();
 
 

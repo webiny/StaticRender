@@ -15,6 +15,7 @@ const url = args[0];
 const snapshotInterval = args[2] || false;
 const debug = args[3] || false;
 const maxExecutionTime = 15000; // 15s
+
 let status = 0;
 
 phantom.create([
@@ -27,6 +28,10 @@ phantom.create([
     phantomPath: args[1],
     logLevel: (debug) ? 'info' : 'error'
 }).then((ph) => {
+
+    // phantom spawns a new process, so we need to return its pid
+    console.log(ph.process.pid);
+
     ph.createPage().then((page) => {
 
         if (debug) {

@@ -74,7 +74,9 @@ PageCacheList.defaultProps = {
                                         <List.Table>
                                             <List.Table.Row>
                                                 <List.Table.Field name="url" align="left" label="Url" sort="url"/>
-                                                <List.Table.Field name="statusCode" align="left" label="StatusCode" sort="statusCode"/>
+                                                <List.Table.Field name="userAgent" align="left" label="User Agent" sort="userAgent"/>
+                                                <List.Table.Field name="ip" align="center" label="IP" sort="ip"/>
+                                                <List.Table.Field name="statusCode" align="center" label="Status Code" sort="statusCode"/>
                                                 <List.Table.TimeAgoField name="ttl" align="left" label="Expires" sort="ttl"/>
                                                 <List.Table.TimeAgoField name="createdOn" align="left" label="Created" sort="createdOn"/>
 

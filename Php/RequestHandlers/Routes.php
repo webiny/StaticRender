@@ -52,6 +52,8 @@ class Routes
                         $cache->ttl = $renderer->getTtl();
                         $cache->content = $content;
                         $cache->statusCode = $statusCode;
+                        $cache->userAgent = $this->wRequest()->server()->httpUserAgent();
+                        $cache->ip = $this->wRequest()->getClientIp();
                         $cache->save();
                     }
                 } catch (\Exception $e) {

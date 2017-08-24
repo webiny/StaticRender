@@ -92,23 +92,26 @@ class Renderer
 
         $this->content = shell_exec($command);
 
-        // first line is the pid
-        // second line is the status code
+        // first line is the pid of the node process
+        // second line is the pid of the phantomjs process (as it gets forked)
+        // third line is the status code
         // all other lines are the content
         $this->content = explode("\n", $this->content);
 
-        // get pid
-        $pid = $this->content[0];
+        // kill the node process
+        exec('kill -9 ' . $this->content[0]);
 
-        // kill the process
-        exec("kill -9 $pid");
+        // kill the phantomjs process
+        exec('kill -9 ' . $this->content[1]);
 
         // check if we have the status code
-        if (isset($this->content[1]) && strpos($this->content[1], 'status code:') !== false) {
-            $this->statusCode = trim(str_replace('status code:', '', $this->content[1]));
+        if (isset($this->content[2]) && strpos($this->content[2], 'status code:') !== false) {
+            $this->statusCode = trim(str_replace('status code:', '', $this->content[2]));
 
-            array_shift($this->content);
-            array_shift($this->content);
+            array_shift($this->content); // remove node pid
+            array_shift($this->content); // remove phantom pid
+            array_shift($this->content); // remove status code
+            $this->content = implode("\n", $this->content);
         } else {
             $this->statusCode = 503;
             $this->content = '';
