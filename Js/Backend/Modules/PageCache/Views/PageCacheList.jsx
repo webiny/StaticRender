@@ -28,7 +28,7 @@ PageCacheList.defaultProps = {
         const listProps = {
             ref: ref => this.cacheList = ref,
             api: '/entities/static-render/cache',
-            fields: 'url,ttl,createdOn',
+            fields: 'url,ttl,statusCode,createdOn',
             connectToRouter: true,
             searchFields: 'url'
         };
@@ -74,6 +74,7 @@ PageCacheList.defaultProps = {
                                         <List.Table>
                                             <List.Table.Row>
                                                 <List.Table.Field name="url" align="left" label="Url" sort="url"/>
+                                                <List.Table.Field name="statusCode" align="left" label="StatusCode" sort="statusCode"/>
                                                 <List.Table.TimeAgoField name="ttl" align="left" label="Expires" sort="ttl"/>
                                                 <List.Table.TimeAgoField name="createdOn" align="left" label="Created" sort="createdOn"/>
 

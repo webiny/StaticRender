@@ -16,9 +16,10 @@ use Webiny\Component\Mongo\Index\SingleIndex;
 /**
  * Class Cache
  *
- * @property string $url
- * @property string $content
- * @property string $ttl
+ * @property string  $url
+ * @property string  $content
+ * @property string  $ttl
+ * @property integer $statusCode
  *
  * @package Apps\StaticRender\Php\Entities
  */
@@ -38,6 +39,7 @@ class Cache extends AbstractEntity
         $this->attr('url')->char()->setValidators('required,unique')->setToArrayDefault();
         $this->attr('ttl')->datetime()->setToArrayDefault();
         $this->attr('content')->char()->setToArrayDefault();
+        $this->attr('statusCode')->integer()->setToArrayDefault();
 
 
         /**
@@ -50,8 +52,9 @@ class Cache extends AbstractEntity
             $renderer = new Renderer($payload->get('url'));
 
             return [
-                'url'     => $payload->get('url'),
-                'content' => $renderer->getContent()
+                'url'        => $payload->get('url'),
+                'content'    => $renderer->getContent(),
+                'statusCode' => $renderer->getStatusCode()
             ];
         });
 
@@ -76,7 +79,7 @@ class Cache extends AbstractEntity
          */
         $this->api('GET', 'delete-all', function () {
             $entries = Cache::find();
-            foreach ($entries as $e){
+            foreach ($entries as $e) {
                 $e->delete(true);
             }
 

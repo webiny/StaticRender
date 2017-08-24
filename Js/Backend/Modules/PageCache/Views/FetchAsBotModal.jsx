@@ -9,7 +9,7 @@ class FetchAsBotModal extends Webiny.Ui.ModalComponent {
         this.state = {
             jobStatus: 'waiting',
             status: 'info',
-            message: 'Type in the url below to fetch the content as a bot.',
+            message: 'Type in the url below to fetch the content as a bot. (Note: this only works with Webiny powered websites.)',
             content: ''
         };
 

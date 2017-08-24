@@ -15,6 +15,7 @@ const url = args[0];
 const snapshotInterval = args[2] || false;
 const debug = args[3] || false;
 const maxExecutionTime = 15000; // 15s
+let status = 0;
 
 phantom.create([
     '--ignore-ssl-errors=yes',
@@ -46,6 +47,19 @@ phantom.create([
         page.property('viewportSize', {width: 1440, height: 768});
         page.property('customHeaders', {"XWebinyStaticRender": "true"});
 
+        page.on('onResourceReceived', function (resource) {
+            //statusCode = resource.status;
+            if (resource.url == url) {
+                if (status == 0) {
+                    status = resource.status;
+                    console.log('status code:' + resource.status);
+                }
+                if (resource.status != 200) {
+                    process.exit();
+                }
+            }
+        });
+
 
         page.open(url).then((status) => {
 
@@ -65,33 +79,34 @@ phantom.create([
                         clearInterval(webinyStartedInterval);
 
                         console.log(content);
-                        page.close().then(() => {
-                            ph.exit();
-                        }).catch(error => {
-                            console.log(error);
-                            ph.exit();
-                        });
+                        process.exit();
 
                         return content;
                     }
                 }).catch(error => {
-                    console.log(error);
-                    ph.exit();
+                    if (debug) {
+                        console.log(error);
+                    }
+                    process.exit();
                 });
 
                 runs--;
                 if (runs < 0) {
-                    ph.exit();
+                    process.exit();
                 }
 
             }, snapshotInterval);
 
         }).catch(error => {
-            console.log(error);
-            ph.exit();
+            if (debug) {
+                console.log(error);
+            }
+            process.exit();
         });
     }).catch(error => {
-        console.log(error);
-        ph.exit();
+        if (debug) {
+            console.log(error);
+        }
+        process.exit();
     });
 });

@@ -25,17 +25,26 @@ class Renderer
      */
     private $config;
     private $content;
+    private $statusCode;
 
     public function __construct($url)
     {
         $this->url = $url;
         $this->loadConfig();
-        $this->content = $this->renderPage();
+        $this->renderPage();
     }
 
+    /**
+     * @return string Page content.
+     */
     public function getContent()
     {
         return $this->content;
+    }
+
+    public function getStatusCode()
+    {
+        return $this->statusCode;
     }
 
     public function getTtl()
@@ -79,8 +88,17 @@ class Renderer
         // node Render.js $url $pathToPhantomJs $timeout
         $command = $this->getNodePath() . ' ' . $this->getRenderJsPath() . ' "' . $this->url . '"' . ' "' . $this->getPhantomJsPath() . '"' . ' ' . $this->getResourceTimeout() . ' 2>&1';
 
-        $output = shell_exec($command);
+        $this->content = shell_exec($command);
 
-        return $output;
+        // check if we have the status code
+        $str = strtok($this->content, "\n");
+        if (strpos($str, 'status code:') !== false) {
+            $this->statusCode = trim(str_replace('status code:', '', $str));
+
+            $this->content = substr($this->content, strpos($str, "\n") + strlen($str));
+        } else {
+            $this->statusCode = 503;
+            $this->content = '';
+        }
     }
 }

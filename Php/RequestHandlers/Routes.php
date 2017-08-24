@@ -37,18 +37,21 @@ class Routes
             $cache = Cache::findOne(['url' => $url]);
             if ($cache) {
                 $content = $cache->content;
+                $statusCode = $cache->statusCode;
             } else {
                 // if it's not cached, let's try and render it
                 try {
                     $renderer = new Renderer($this->wRequest()->getCurrentUrl());
                     if ($renderer !== false && $renderer != '') {
                         $content = $renderer->getContent();
+                        $statusCode = $renderer->getStatusCode();
 
                         // save the page
                         $cache = new Cache();
                         $cache->url = $url;
                         $cache->ttl = $renderer->getTtl();
                         $cache->content = $content;
+                        $cache->statusCode = $statusCode;
                         $cache->save();
                     }
                 } catch (\Exception $e) {
@@ -57,7 +60,7 @@ class Routes
             }
 
             if ($content) {
-                return new HtmlResponse($content);
+                return new HtmlResponse($content, $statusCode);
             }
         }
 
