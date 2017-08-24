@@ -79,6 +79,7 @@ phantom.create([
                         clearInterval(webinyStartedInterval);
 
                         console.log(content);
+                        ph.exit();
                         process.exit();
 
                         return content;
@@ -87,11 +88,13 @@ phantom.create([
                     if (debug) {
                         console.log(error);
                     }
+                    ph.exit();
                     process.exit();
                 });
 
                 runs--;
                 if (runs < 0) {
+                    ph.exit();
                     process.exit();
                 }
 
@@ -101,12 +104,14 @@ phantom.create([
             if (debug) {
                 console.log(error);
             }
+            ph.exit();
             process.exit();
         });
     }).catch(error => {
         if (debug) {
             console.log(error);
         }
+        ph.exit();
         process.exit();
     });
 });
