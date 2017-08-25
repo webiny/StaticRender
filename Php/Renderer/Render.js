@@ -60,6 +60,7 @@ phantom.create([
                     console.log('status code:' + resource.status);
                 }
                 if (resource.status != 200) {
+                    ph.exit();
                     process.exit();
                 }
             }
@@ -89,12 +90,6 @@ phantom.create([
 
                         return content;
                     }
-                }).catch(error => {
-                    if (debug) {
-                        console.log(error);
-                    }
-                    ph.exit();
-                    process.exit();
                 });
 
                 runs--;
@@ -105,12 +100,6 @@ phantom.create([
 
             }, snapshotInterval);
 
-        }).catch(error => {
-            if (debug) {
-                console.log(error);
-            }
-            ph.exit();
-            process.exit();
         });
     }).catch(error => {
         if (debug) {
