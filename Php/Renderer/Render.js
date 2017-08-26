@@ -53,7 +53,6 @@ phantom.create([
         page.property('customHeaders', {"XWebinyStaticRender": "true"});
 
         page.on('onResourceReceived', function (resource) {
-            //statusCode = resource.status;
             if (resource.url == url) {
                 if (status == 0) {
                     status = resource.status;
@@ -63,6 +62,12 @@ phantom.create([
                     ph.exit();
                     process.exit();
                 }
+            }
+        });
+
+        page.on("onResourceError", function (resourceError) {
+            if (resourceError.id == 1) {
+                console.log('status code:' + resourceError.status);
             }
         });
 

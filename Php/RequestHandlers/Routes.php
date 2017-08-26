@@ -54,6 +54,7 @@ class Routes
                         $cache->statusCode = $statusCode;
                         $cache->userAgent = $this->wRequest()->server()->httpUserAgent();
                         $cache->ip = $this->wRequest()->getClientIp();
+                        $cache->ref = $this->wRequest()->server()->httpReferer();
                         $cache->save();
                     }
                 } catch (\Exception $e) {

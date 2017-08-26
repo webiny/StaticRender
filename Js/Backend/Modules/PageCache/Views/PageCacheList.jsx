@@ -78,6 +78,8 @@ PageCacheList.defaultProps = {
                                                         <div>
                                                             <strong>{row.url}</strong><br/>
                                                             <small>{row.userAgent}</small>
+                                                            <br/>
+                                                            <small>{row.ref}</small>
                                                         </div>
                                                     )}
                                                 </List.Table.Field>
