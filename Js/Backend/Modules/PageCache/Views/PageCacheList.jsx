@@ -28,7 +28,7 @@ PageCacheList.defaultProps = {
         const listProps = {
             ref: ref => this.cacheList = ref,
             api: '/entities/static-render/cache',
-            fields: 'url,ttl,statusCode,createdOn,ip,userAgent',
+            fields: 'url,ttl,statusCode,createdOn,ip,userAgent,ref',
             connectToRouter: true,
             searchFields: 'url'
         };
