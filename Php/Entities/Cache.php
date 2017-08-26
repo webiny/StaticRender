@@ -92,4 +92,9 @@ class Cache extends AbstractEntity
             return true;
         });
     }
+
+    public function delete($permanent = false)
+    {
+        return parent::delete(true);
+    }
 }
