@@ -7,8 +7,8 @@
 
 namespace Apps\StaticRender\Php\RequestHandlers;
 
-use Apps\Webiny\Php\DevTools\WebinyTrait;
-use Apps\Webiny\Php\DevTools\Response\HtmlResponse;
+use Apps\Webiny\Php\Lib\WebinyTrait;
+use Apps\Webiny\Php\Lib\Response\HtmlResponse;
 use Apps\StaticRender\Php\Entities\Cache;
 use Apps\StaticRender\Php\Renderer\Renderer;
 use Webiny\Component\StdLib\StdObjectTrait;

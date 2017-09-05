@@ -7,7 +7,7 @@
 
 namespace Apps\StaticRender\Php\Renderer;
 
-use Apps\Webiny\Php\DevTools\WebinyTrait;
+use Apps\Webiny\Php\Lib\WebinyTrait;
 use Apps\StaticRender\Php\Exceptions\StaticRenderException;
 use Webiny\Component\Config\ConfigObject;
 use Webiny\Component\StdLib\StdObjectTrait;
