@@ -9,8 +9,10 @@
 namespace Apps\StaticRender\Php\Entities;
 
 
+use Apps\Webiny\Php\Lib\Api\ApiContainer;
 use Apps\Webiny\Php\Lib\Entity\AbstractEntity;
 use Apps\StaticRender\Php\Renderer\Renderer;
+use Apps\Webiny\Php\Lib\Entity\Indexes\IndexContainer;
 use Webiny\Component\Mongo\Index\SingleIndex;
 
 /**
@@ -34,12 +36,7 @@ class Cache extends AbstractEntity
     {
         parent::__construct();
 
-        $this->index(new SingleIndex('ttl', 'ttl', false, false, false, 0)); // delete records automatically after ttl expires
-        $this->index(new SingleIndex('url', 'url', false, true));
-
-        array_map(function ($key) {
-            unset($this->attributes[$key]);
-        }, ['deletedOn', 'deletedBy', 'modifiedOn', 'modifiedBy', 'createdBy']);
+        $this->attributes->remove('deletedOn', 'deletedBy', 'modifiedOn', 'modifiedBy', 'createdBy');
 
         $this->attr('url')->char()->setValidators('required,unique')->setToArrayDefault();
         $this->attr('ttl')->datetime()->setToArrayDefault();
@@ -48,13 +45,17 @@ class Cache extends AbstractEntity
         $this->attr('ip')->char()->setToArrayDefault();
         $this->attr('ref')->char()->setToArrayDefault();
         $this->attr('statusCode')->integer()->setToArrayDefault();
+    }
 
+    protected function entityApi(ApiContainer $api)
+    {
+        parent::entityApi($api);
 
         /**
          * @api.name Fetch as bot
          * @api.description Fetches the given url as how the page would be rendered for a bot by the static render app.
          */
-        $this->api('POST', 'fetch-as-bot', function () {
+        $api->post('fetch-as-bot', function () {
             $payload = $this->wRequest()->getPayload();
 
             $renderer = new Renderer($payload->get('url'));
@@ -70,7 +71,7 @@ class Cache extends AbstractEntity
          * @api.name        Refreshes the cache for the given entry
          * @api.description Refreshes the cache for the given entry
          */
-        $this->api('GET', 'refresh/{entry}', function (Cache $entry) {
+        $api->get('refresh/{entry}', function (Cache $entry) {
             $renderer = new Renderer($entry->url);
 
             $entry->content = $renderer->getContent();
@@ -85,7 +86,7 @@ class Cache extends AbstractEntity
          * @api.name Deletes all cache entries.
          * @api.description Deletes all cache entries.
          */
-        $this->api('GET', 'delete-all', function () {
+        $api->get('delete-all', function () {
             $entries = Cache::find();
             foreach ($entries as $e) {
                 $e->delete(true);
@@ -93,6 +94,15 @@ class Cache extends AbstractEntity
 
             return true;
         });
+    }
+
+    protected static function entityIndexes(IndexContainer $indexes)
+    {
+        parent::entityIndexes($indexes);
+
+        // delete records automatically after ttl expires
+        $indexes->add(new SingleIndex('ttl', 'ttl', false, false, false, 0));
+        $indexes->add(new SingleIndex('url', 'url', false, true));
     }
 
     public function delete($permanent = false)
