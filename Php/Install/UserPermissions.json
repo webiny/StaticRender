@@ -4,21 +4,19 @@
         "slug": "static-render-manage-all",
         "description": "Allows user to perform all actions on Static Render app",
         "permissions": {
-            "entities": {
-                "Apps\\StaticRender\\Php\\Entities\\Cache": {
-                    "crudCreate": true,
-                    "crudUpdate": true,
-                    "crudDelete": true,
-                    "crudRead": true,
-                    "fetch-as-bot" : {
-                        "post" : true
-                    },
-                    "refresh/{entry}" : {
-                        "get" : true
-                    },
-                    "delete-all" : {
-                        "get" : true
-                    }
+            "StaticRender.Entities.Cache": {
+                "c": true,
+                "u": true,
+                "d": true,
+                "r": true,
+                "fetch-as-bot": {
+                    "post": true
+                },
+                "refresh/{entry}": {
+                    "get": true
+                },
+                "delete-all": {
+                    "get": true
                 }
             }
         }
