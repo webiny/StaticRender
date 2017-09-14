@@ -3,22 +3,25 @@
         "name": "Static render",
         "slug": "static-render-manage-all",
         "description": "Allows user to perform all actions on Static Render app",
-        "permissions": {
-            "StaticRender.Entities.Cache": {
-                "c": true,
-                "u": true,
-                "d": true,
-                "r": true,
-                "fetch-as-bot": {
-                    "post": true
-                },
-                "refresh/{entry}": {
-                    "get": true
-                },
-                "delete-all": {
-                    "get": true
+        "permissions": [
+            {
+                "classId": "StaticRender.Entities.Cache",
+                "rules": {
+                    "c": true,
+                    "u": true,
+                    "d": true,
+                    "r": true,
+                    "fetch-as-bot": {
+                        "post": true
+                    },
+                    "refresh/{entry}": {
+                        "get": true
+                    },
+                    "delete-all": {
+                        "get": true
+                    }
                 }
             }
-        }
+        ]
     }
 ]

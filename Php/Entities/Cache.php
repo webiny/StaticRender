@@ -1,13 +1,6 @@
 <?php
 
-/**
- * Webiny Platform (http://www.webiny.com/)
- *
- * @copyright Copyright Webiny LTD
- */
-
 namespace Apps\StaticRender\Php\Entities;
-
 
 use Apps\Webiny\Php\Lib\Api\ApiContainer;
 use Apps\Webiny\Php\Lib\Entity\AbstractEntity;
@@ -25,11 +18,10 @@ use Webiny\Component\Mongo\Index\SingleIndex;
  * @property string  $userAgent
  * @property string  $ip
  * @property string  $ref
- *
- * @package Apps\StaticRender\Php\Entities
  */
 class Cache extends AbstractEntity
 {
+    protected static $classId = 'StaticRender.Entities.Cache';
     protected static $entityCollection = 'StaticRenderCache';
 
     public function __construct()
