@@ -22,7 +22,7 @@ use Webiny\Component\Mongo\Index\SingleIndex;
 class Cache extends AbstractEntity
 {
     protected static $classId = 'StaticRender.Entities.Cache';
-    protected static $entityCollection = 'StaticRenderCache';
+    protected static $collection = 'StaticRenderCache';
 
     public function __construct()
     {
