@@ -67,7 +67,7 @@ class FetchAsBotModal extends Webiny.Ui.ModalComponent {
                         {this.state.jobStatus === 'waiting' && (
                             <div>
                                 <Form {...formProps}>
-                                    {(model, form) => (
+                                    {({model, form}) => (
                                         <Grid.Row>
                                             <Grid.Col all={12}>
                                                 <Input

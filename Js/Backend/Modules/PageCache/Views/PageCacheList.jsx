@@ -15,7 +15,7 @@ class PageCacheList extends Webiny.Ui.View {
         this.bindMethods('clearAllCache');
     }
 
-    clearAllCache(){
+    clearAllCache() {
         return new Webiny.Api.Endpoint('/entities/static-render/cache').get('/delete-all').then(() => {
             this.cacheList.loadData();
         });
@@ -43,7 +43,7 @@ PageCacheList.defaultProps = {
         return (
             <ViewSwitcher>
                 <ViewSwitcher.View view="pageCacheViewView" defaultView>
-                    {showView => (
+                    {({showView}) => (
                         <view>
                             <View.List>
                                 <View.Header title="Page Cache">
@@ -62,10 +62,10 @@ PageCacheList.defaultProps = {
                                 <View.Body>
                                     <List {...listProps}>
                                         <List.FormFilters>
-                                            {(applyFilters, resetFilters) => (
+                                            {({apply}) => (
                                                 <Grid.Row>
                                                     <Grid.Col all={12}>
-                                                        <Input {...searchProps} onEnter={applyFilters()}/>
+                                                        <Input {...searchProps} onEnter={apply()}/>
                                                     </Grid.Col>
                                                 </Grid.Row>
                                             )}
@@ -74,12 +74,12 @@ PageCacheList.defaultProps = {
                                         <List.Table>
                                             <List.Table.Row>
                                                 <List.Table.Field name="url" align="left" label="Url" sort="url">
-                                                    {row => (
+                                                    {({data}) => (
                                                         <div>
-                                                            <strong>{row.url}</strong><br/>
-                                                            <small>{row.userAgent}</small>
+                                                            <strong>{data.url}</strong><br/>
+                                                            <small>{data.userAgent}</small>
                                                             <br/>
-                                                            <small>{row.ref}</small>
+                                                            <small>{data.ref}</small>
                                                         </div>
                                                     )}
                                                 </List.Table.Field>
@@ -115,23 +115,23 @@ PageCacheList.defaultProps = {
                 </ViewSwitcher.View>
 
                 <ViewSwitcher.View view="contentView" modal>
-                    {(showView, data) => <ContentModal {...{showView, data}} />}
+                    {({showView, data: {data}}) => <ContentModal {...{showView, data}} />}
                 </ViewSwitcher.View>
 
                 <ViewSwitcher.View view="fetchAsBotView" modal>
-                    {(showView, data) => <FetchAsBotModal {...{showView, data}} />}
+                    {() => <FetchAsBotModal/>}
                 </ViewSwitcher.View>
 
                 <ViewSwitcher.View view="refreshCacheView" modal>
-                    {(showView, data) => <RefreshCacheModal {...{showView, data}} />}
+                    {({data: {data}}) => <RefreshCacheModal data={data}/>}
                 </ViewSwitcher.View>
-
-
             </ViewSwitcher>
         );
     }
 };
 
-export default Webiny.createComponent(PageCacheList, {modules: [
-    'ViewSwitcher', 'View', 'Link', 'Icon', 'List', 'Dropdown', 'Input', 'Grid', 'ClickConfirm'
-]});
+export default Webiny.createComponent(PageCacheList, {
+    modules: [
+        'ViewSwitcher', 'View', 'Link', 'Icon', 'List', 'Dropdown', 'Input', 'Grid', 'ClickConfirm'
+    ]
+});
