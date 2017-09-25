@@ -41,7 +41,7 @@ class FetchAsBotModal extends Webiny.Ui.ModalComponent {
     renderDialog() {
         const formProps = {
             api: '/entities/static-render/cache/fetch-as-bot',
-            onSubmit: (model, form) => {
+            onSubmit: ({model, form}) => {
                 this.setState({
                     message: 'Fetching ... please wait',
                     status: 'warning'
@@ -49,9 +49,9 @@ class FetchAsBotModal extends Webiny.Ui.ModalComponent {
 
                 return form.onSubmit(model);
             },
-            onSubmitSuccess: (result) => {
+            onSubmitSuccess: ({apiResponse}) => {
                 this.initialState();
-                this.setState({content: result.getData('content')});
+                this.setState({content: apiResponse.getData('content')});
             },
             onSuccessMessage: null
         };
