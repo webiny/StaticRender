@@ -1,6 +1,9 @@
 import React from 'react';
 import Webiny from 'webiny';
 
+/**
+ * @i18n.namespace StaticRender.Backend.PageCache.FetchAsBotModal
+ */
 class FetchAsBotModal extends Webiny.Ui.ModalComponent {
 
     constructor(props) {
@@ -37,7 +40,7 @@ class FetchAsBotModal extends Webiny.Ui.ModalComponent {
                     {({form}) => (
                         <Modal.Content>
                             <Form.Loader>Fetching, please wait...</Form.Loader>
-                            <Modal.Header title="Fetch as Bot" onClose={this.hide}/>
+                            <Modal.Header title={this.i18n('Fetch as Bot')} onClose={this.hide}/>
                             <Modal.Body>
                                 {this.state.statusCode === 503 && (
                                     <Alert type="danger">The requested URL was not found.</Alert>
@@ -45,18 +48,18 @@ class FetchAsBotModal extends Webiny.Ui.ModalComponent {
                                 <Grid.Row>
                                     <Grid.Col all={12}>
                                         <Input
-                                            label="URL"
+                                            label={this.i18n('URL')}
                                             name="url"
                                             validate="required,url"
                                             description="Type in the URL to fetch as a bot. (Note: this only works with Webiny powered websites.)"
-                                            placeholder="Type the url and press ENTER"
+                                            placeholder={this.i18n('Type the url and press ENTER')}
                                             onEnter={form.submit}/>
                                     </Grid.Col>
                                     <Grid.Col all={12}>
                                         {this.state.content !== '' && this.state.statusCode === 200 && (
                                             <CodeEditor
                                                 readOnly={true}
-                                                label="Content"
+                                                label={this.i18n('Content')}
                                                 name="content"
                                                 value={this.state.content}
                                                 height="auto"
@@ -67,7 +70,7 @@ class FetchAsBotModal extends Webiny.Ui.ModalComponent {
                                 <div className="clearfix"/>
                             </Modal.Body>
                             <Modal.Footer>
-                                <Button label="Close" onClick={this.hide}/>
+                                <Button label={this.i18n('Close')} onClick={this.hide}/>
                             </Modal.Footer>
                         </Modal.Content>
                     )}

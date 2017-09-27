@@ -1,6 +1,9 @@
 import React from 'react';
 import Webiny from 'webiny';
 
+/**
+ * @i18n.namespace StaticRender.Backend.PageCache.RefreshCacheModal
+ */
 class RefreshCacheModal extends Webiny.Ui.ModalComponent {
 
     constructor(props) {
@@ -44,7 +47,7 @@ class RefreshCacheModal extends Webiny.Ui.ModalComponent {
         return (
             <Modal.Dialog className="modal-full-width">
                 <Modal.Content>
-                    <Modal.Header title="Refreshing cache ..."/>
+                    <Modal.Header title={this.i18n('Refreshing cache ...')}/>
                     <Modal.Body>
                         <Alert type={this.state.status}>{this.state.message}</Alert>
 
@@ -59,12 +62,12 @@ class RefreshCacheModal extends Webiny.Ui.ModalComponent {
                         )}
 
                         {(!this.state.jobRunning && this.state.status === 'success') && (
-                            <CodeEditor readOnly={true} label="Content" name="content" value={this.state.content}/>
+                            <CodeEditor readOnly={true} label={this.i18n('Content')} name="content" value={this.state.content}/>
                         )}
 
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button label="Close" disabled={this.state.jobRunning && 'disabled'} onClick={this.hide}/>
+                        <Button label={this.i18n('Close')} disabled={this.state.jobRunning && 'disabled'} onClick={this.hide}/>
                     </Modal.Footer>
                 </Modal.Content>
             </Modal.Dialog>

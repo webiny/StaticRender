@@ -4,6 +4,9 @@ import ContentModal from './ContentModal';
 import FetchAsBotModal from './FetchAsBotModal';
 import RefreshCacheModal from './RefreshCacheModal';
 
+/**
+ * @i18n.namespace StaticRender.Backend.PageCache.PageCacheList
+ */
 class PageCacheList extends Webiny.Ui.View {
     constructor(props) {
         super(props);
@@ -46,12 +49,12 @@ PageCacheList.defaultProps = {
                     {({showView}) => (
                         <view>
                             <View.List>
-                                <View.Header title="Page Cache">
+                                <View.Header title={this.i18n('Page Cache')}>
                                     <Link type="default" align="right" onClick={showView('fetchAsBotView')}>
                                         <Icon icon="fa fa-bug"/>
                                         Fetch as Bot
                                     </Link>
-                                    <ClickConfirm message="Are you sure you want to clear all cache?">
+                                    <ClickConfirm message={this.i18n('Are you sure you want to clear all cache?')}>
                                         <Link type="default" align="right" onClick={this.clearAllCache}>
                                             <Icon icon="fa fa-trash-o"/>
                                             Clear all cache
@@ -73,7 +76,7 @@ PageCacheList.defaultProps = {
 
                                         <List.Table>
                                             <List.Table.Row>
-                                                <List.Table.Field name="url" align="left" label="Url" sort="url">
+                                                <List.Table.Field name="url" align="left" label={this.i18n('Url')} sort="url">
                                                     {({data}) => (
                                                         <div>
                                                             <strong>{data.url}</strong><br/>
@@ -83,26 +86,26 @@ PageCacheList.defaultProps = {
                                                         </div>
                                                     )}
                                                 </List.Table.Field>
-                                                <List.Table.Field name="ip" align="center" label="IP" sort="ip"/>
-                                                <List.Table.Field name="statusCode" align="center" label="Status Code" sort="statusCode"/>
-                                                <List.Table.TimeAgoField name="ttl" align="left" label="Expires" sort="ttl"/>
-                                                <List.Table.TimeAgoField name="createdOn" align="left" label="Created" sort="createdOn"/>
+                                                <List.Table.Field name="ip" align="center" label={this.i18n('IP')} sort="ip"/>
+                                                <List.Table.Field name="statusCode" align="center" label={this.i18n('Status Code')} sort="statusCode"/>
+                                                <List.Table.TimeAgoField name="ttl" align="left" label={this.i18n('Expires')} sort="ttl"/>
+                                                <List.Table.TimeAgoField name="createdOn" align="left" label={this.i18n('Created')} sort="createdOn"/>
 
                                                 <List.Table.Actions>
                                                     <List.Table.Action
-                                                        label="View content"
+                                                        label={this.i18n('View content')}
                                                         icon="fa-code"
                                                         type="primary"
                                                         align="right"
                                                         onClick={showView('contentView')}/>
                                                     <List.Table.Action
-                                                        label="Refresh cache"
+                                                        label={this.i18n('Refresh cache')}
                                                         icon="fa-refresh"
                                                         type="primary"
                                                         align="right"
                                                         onClick={showView('refreshCacheView')}/>
                                                     <Dropdown.Divider/>
-                                                    <List.Table.DeleteAction label="Purge cache"/>
+                                                    <List.Table.DeleteAction label={this.i18n('Purge cache')}/>
                                                 </List.Table.Actions>
                                             </List.Table.Row>
                                         </List.Table>

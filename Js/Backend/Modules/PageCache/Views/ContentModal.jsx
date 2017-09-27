@@ -1,6 +1,9 @@
 import React from 'react';
 import Webiny from 'webiny';
 
+/**
+ * @i18n.namespace StaticRender.Backend.PageCache.ContentModal
+ */
 class ContentModal extends Webiny.Ui.ModalComponent {
 
     constructor(props) {
@@ -32,12 +35,12 @@ class ContentModal extends Webiny.Ui.ModalComponent {
         return (
             <Modal.Dialog wide={true}>
                 <Modal.Content>
-                    <Modal.Header title="Page Cache"/>
+                    <Modal.Header title={this.i18n('Page Cache')}/>
                     <Modal.Body>
-                        {this.state.content!='' && <CodeEditor readOnly={true} label="Content" value={this.state.content} height="auto" autoFormat={true}/>}
+                        {this.state.content!='' && <CodeEditor readOnly={true} label={this.i18n('Content')} value={this.state.content} height="auto" autoFormat={true}/>}
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button label="Close" onClick={this.hide}/>
+                        <Button label={this.i18n('Close')} onClick={this.hide}/>
                     </Modal.Footer>
                 </Modal.Content>
             </Modal.Dialog>
