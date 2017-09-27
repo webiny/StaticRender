@@ -39,11 +39,11 @@ class FetchAsBotModal extends Webiny.Ui.ModalComponent {
                 <Form {...formProps}>
                     {({form}) => (
                         <Modal.Content>
-                            <Form.Loader>Fetching, please wait...</Form.Loader>
+                            <Form.Loader>{this.i18n('Fetching, please wait...')}</Form.Loader>
                             <Modal.Header title={this.i18n('Fetch as Bot')} onClose={this.hide}/>
                             <Modal.Body>
                                 {this.state.statusCode === 503 && (
-                                    <Alert type="danger">The requested URL was not found.</Alert>
+                                    <Alert type="danger">{this.i18n('The requested URL was not found.')}</Alert>
                                 )}
                                 <Grid.Row>
                                     <Grid.Col all={12}>
@@ -51,7 +51,7 @@ class FetchAsBotModal extends Webiny.Ui.ModalComponent {
                                             label={this.i18n('URL')}
                                             name="url"
                                             validate="required,url"
-                                            description="Type in the URL to fetch as a bot. (Note: this only works with Webiny powered websites.)"
+                                            description={this.i18n('Type in the URL to fetch as a bot. (Note: this only works with Webiny powered websites.)')}
                                             placeholder={this.i18n('Type the url and press ENTER')}
                                             onEnter={form.submit}/>
                                     </Grid.Col>

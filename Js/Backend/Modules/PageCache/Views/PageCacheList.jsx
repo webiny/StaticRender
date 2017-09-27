@@ -37,7 +37,7 @@ PageCacheList.defaultProps = {
         };
 
         const searchProps = {
-            placeholder: 'Search by url...',
+            placeholder: this.i18n('Search by url...'),
             name: '_searchQuery'
         };
 
@@ -52,12 +52,12 @@ PageCacheList.defaultProps = {
                                 <View.Header title={this.i18n('Page Cache')}>
                                     <Link type="default" align="right" onClick={showView('fetchAsBotView')}>
                                         <Icon icon="fa fa-bug"/>
-                                        Fetch as Bot
+                                        {this.i18n('Fetch as Bot')}
                                     </Link>
                                     <ClickConfirm message={this.i18n('Are you sure you want to clear all cache?')}>
                                         <Link type="default" align="right" onClick={this.clearAllCache}>
                                             <Icon icon="fa fa-trash-o"/>
-                                            Clear all cache
+                                            {this.i18n('Clear all cache')}
                                         </Link>
                                     </ClickConfirm>
                                 </View.Header>
@@ -87,9 +87,11 @@ PageCacheList.defaultProps = {
                                                     )}
                                                 </List.Table.Field>
                                                 <List.Table.Field name="ip" align="center" label={this.i18n('IP')} sort="ip"/>
-                                                <List.Table.Field name="statusCode" align="center" label={this.i18n('Status Code')} sort="statusCode"/>
+                                                <List.Table.Field name="statusCode" align="center" label={this.i18n('Status Code')}
+                                                                  sort="statusCode"/>
                                                 <List.Table.TimeAgoField name="ttl" align="left" label={this.i18n('Expires')} sort="ttl"/>
-                                                <List.Table.TimeAgoField name="createdOn" align="left" label={this.i18n('Created')} sort="createdOn"/>
+                                                <List.Table.TimeAgoField name="createdOn" align="left" label={this.i18n('Created')}
+                                                                         sort="createdOn"/>
 
                                                 <List.Table.Actions>
                                                     <List.Table.Action

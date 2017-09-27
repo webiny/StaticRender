@@ -12,7 +12,7 @@ class RefreshCacheModal extends Webiny.Ui.ModalComponent {
         this.state = {
             jobRunning: true,
             status: 'info',
-            message: 'Fetching new content and refreshing cache ... please wait',
+            message: this.i18n('Fetching new content and refreshing cache ... please wait'),
             cacheId: this.props.data.id,
             content: ''
         };
@@ -27,7 +27,7 @@ class RefreshCacheModal extends Webiny.Ui.ModalComponent {
             if (ar.response.status !== 200) {
                 this.setState({
                     status: 'error',
-                    message: 'Oopss..something went wrong',
+                    message: this.i18n('Oopss..something went wrong'),
                     jobRunning: false
                 });
 
@@ -36,7 +36,7 @@ class RefreshCacheModal extends Webiny.Ui.ModalComponent {
 
             this.setState({
                 status: 'success',
-                message: 'Cache was successfully refreshed',
+                message: this.i18n('Cache was successfully refreshed'),
                 jobRunning: false,
                 content: ar.getData('content')
             });
