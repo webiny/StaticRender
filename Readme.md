@@ -15,12 +15,13 @@ This is a Webiny app, meaning you need to use Webiny platform as the foundation 
 
 Additionally you need to have the following items:
 * Node 7 or greater
-* PhantomJs 2.5.0 or greater
+* PhantomJs 2.1.1 or greater
 
 ### PhantomJs 2.5.0
-At the point of writing this file, Phantom 2.5.0-beta was released. From that version onwards PhantomJs supports ES6, which is a pre-requirement for Webiny apps to run and therefore to render them correctly.
+At the point of writing this file, Phantom 2.5.0-beta was released. From that version onwards PhantomJs supports ES6, so we jumped on the beta ship straight away.
+Since we are transpiling our JS using webpack, version 2.1.1 is also enough to render the pages correctly. 
 
-Installing the 2.5.0-beta is bit tricky, but if you run Ubuntu, here are few step you need to get it installed:
+Installing the 2.5.0-beta requires a few steps and here is what you need to do if you are running Ubuntu (like our Vagrant machine):
 
 1. Download the binary from this link:
 [https://bitbucket.org/ariya/phantomjs/downloads/](https://bitbucket.org/ariya/phantomjs/downloads/)
@@ -30,7 +31,7 @@ Extract the archive:
 tar -zxvf {archive name here}
 ```
 
-Run the install scripts
+Run the install scripts (and update the paths to match the version you downloaded):
 ```
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 
@@ -40,13 +41,11 @@ sudo apt-get install libstdc++6 libwebp-dev libhyphen-dev libicu-dev gcc-4.9 g++
 
 sudo mv phantomjs-2.5.0-beta-ubuntu-trusty /usr/local/share/
 
-sudo ln -sf /usr/local/share/phantomjs-2.5.0-beta-ubuntu-trusty/bin/phantomjs /usr/local/bin
-
 sudo ln -sf /usr/local/share/phantomjs-2.5.0-beta-ubuntu-trusty/bin/phantomjs /usr/bin
 
 sudo chmod +x /usr/local/share/phantomjs-2.5.0-beta-ubuntu-trusty/bin/phantomjs
 
-phantomjs —version
+phantomjs --version
 ```
 
 ## Configuration
@@ -57,7 +56,7 @@ StaticRender:
     Settings:
         ResourceTimeout: 1000
         CacheTtl: 86400
-        PathToPhantomJs: '/usr/local/bin/phantomjs'
+        PathToPhantomJs: '/usr/bin/phantomjs'
         PathToNode: '/home/vagrant/.nvm/versions/node/v7.7.1/bin/node'
 ```
 
@@ -81,7 +80,7 @@ The app also has a user interface. Using the interface via the Webiny administra
 * Option to delete a certain cache entry
 * Force a refresh of a particular cache entry
 * View the rendered HTML content of a certain cache entry
-* Fetch as bot view
+* `Fetch as bot` to see the output of the requested URL as if you were a bot
 
 ## License and Contributions
 

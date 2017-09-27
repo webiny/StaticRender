@@ -16,7 +16,7 @@ class PageCacheList extends Webiny.Ui.View {
     }
 
     clearAllCache() {
-        return new Webiny.Api.Endpoint('/entities/static-render/cache').get('/delete-all').then(() => {
+        return new Webiny.Api.Endpoint('/entities/static-render/cache').delete('/').then(() => {
             this.cacheList.loadData();
         });
     }

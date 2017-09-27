@@ -60,29 +60,26 @@ class Cache extends AbstractEntity
         });
 
         /**
-         * @api.name        Refreshes the cache for the given entry
-         * @api.description Refreshes the cache for the given entry
+         * @api.name        Refresh cache
+         * @api.description Refreshes the cache entry
          */
-        $api->get('refresh/{entry}', function (Cache $entry) {
-            $renderer = new Renderer($entry->url);
+        $api->post('{id}/refresh', function () {
+            $renderer = new Renderer($this->url);
 
-            $entry->content = $renderer->getContent();
-            $entry->ttl = $renderer->getTtl();
+            $this->content = $renderer->getContent();
+            $this->ttl = $renderer->getTtl();
 
-            $entry->save();
+            $this->save();
 
-            return $entry->toArray();
+            return $this->toArray();
         });
 
         /**
          * @api.name Deletes all cache entries.
          * @api.description Deletes all cache entries.
          */
-        $api->get('delete-all', function () {
-            $entries = Cache::find();
-            foreach ($entries as $e) {
-                $e->delete(true);
-            }
+        $api->delete('/', function () {
+            Cache::find()->delete();
 
             return true;
         });
@@ -97,8 +94,8 @@ class Cache extends AbstractEntity
         $indexes->add(new SingleIndex('url', 'url', false, true));
     }
 
-    public function delete($permanent = false)
+    public function delete($permanent = true)
     {
-        return parent::delete(true);
+        return parent::delete($permanent);
     }
 }

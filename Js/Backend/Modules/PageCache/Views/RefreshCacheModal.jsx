@@ -20,7 +20,7 @@ class RefreshCacheModal extends Webiny.Ui.ModalComponent {
 
     refreshContent() {
         const api = new Webiny.Api.Endpoint('/entities/static-render/cache');
-        return api.get('/refresh/' + this.props.data.id).then(ar => {
+        return api.post(this.props.data.id + '/refresh').then(ar => {
             if (ar.response.status !== 200) {
                 this.setState({
                     status: 'error',

@@ -14,11 +14,11 @@
                     "fetch-as-bot": {
                         "post": true
                     },
-                    "refresh/{entry}": {
-                        "get": true
+                    "{id}/refresh": {
+                        "post": true
                     },
-                    "delete-all": {
-                        "get": true
+                    "/": {
+                        "delete": true
                     }
                 }
             }

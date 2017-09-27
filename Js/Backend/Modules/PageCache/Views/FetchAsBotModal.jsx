@@ -7,51 +7,24 @@ class FetchAsBotModal extends Webiny.Ui.ModalComponent {
         super(props);
 
         this.state = {
-            jobStatus: 'waiting',
-            status: 'info',
-            message: 'Type in the url below to fetch the content as a bot. (Note: this only works with Webiny powered websites.)',
-            content: ''
+            content: '',
+            statusCode: null
         };
-
-        this.bindMethods('fetchUrl,initialState');
-    }
-
-    initialState() {
-        this.setState({
-            jobStatus: 'waiting',
-            status: 'info',
-            message: 'Type in the url below to fetch the content as a bot.',
-            content: ''
-        });
-    }
-
-    fetchUrl(form) {
-        form.submit().then(() => {
-            console.log('is valid:' + form.isValid());
-            console.log('has error:' + form.hasError());
-            if (form.isValid) {
-                this.setState({
-                    message: 'Fetching ... please wait',
-                    status: 'warning'
-                });
-            }
-        });
     }
 
     renderDialog() {
         const formProps = {
             api: '/entities/static-render/cache/fetch-as-bot',
             onSubmit: ({model, form}) => {
-                this.setState({
-                    message: 'Fetching ... please wait',
-                    status: 'warning'
-                });
-
+                this.setState({statusCode: null});
                 return form.onSubmit(model);
             },
             onSubmitSuccess: ({apiResponse}) => {
-                this.initialState();
-                this.setState({content: apiResponse.getData('content')});
+                const data = apiResponse.getData();
+                this.setState({
+                    content: data.content,
+                    statusCode: parseInt(data.statusCode)
+                });
             },
             onSuccessMessage: null
         };
@@ -60,39 +33,45 @@ class FetchAsBotModal extends Webiny.Ui.ModalComponent {
 
         return (
             <Modal.Dialog wide={true}>
-                <Modal.Content>
-                    <Modal.Header title="Fetch as Bot"/>
-                    <Modal.Body>
-                        <Alert type={this.state.status}>{this.state.message}</Alert>
-                        {this.state.jobStatus === 'waiting' && (
-                            <div>
-                                <Form {...formProps}>
-                                    {({model, form}) => (
-                                        <Grid.Row>
-                                            <Grid.Col all={12}>
-                                                <Input
-                                                    label="Url"
-                                                    name="url"
-                                                    validate="required,url"
-                                                    placeholder="Type the url and press enter"
-                                                    onEnter={form.submit}/>
-                                            </Grid.Col>
-                                        </Grid.Row>
-                                    )}
-                                </Form>
-                                <Grid.Col all={12}>
-                                    {this.state.content !== '' && (
-                                        <CodeEditor readOnly={true} label="Content" name="content" value={this.state.content} height="auto" autoFormat={true}/>
-                                    )}
-                                </Grid.Col>
+                <Form {...formProps}>
+                    {({form}) => (
+                        <Modal.Content>
+                            <Form.Loader>Fetching, please wait...</Form.Loader>
+                            <Modal.Header title="Fetch as Bot" onClose={this.hide}/>
+                            <Modal.Body>
+                                {this.state.statusCode === 503 && (
+                                    <Alert type="danger">The requested URL was not found.</Alert>
+                                )}
+                                <Grid.Row>
+                                    <Grid.Col all={12}>
+                                        <Input
+                                            label="URL"
+                                            name="url"
+                                            validate="required,url"
+                                            description="Type in the URL to fetch as a bot. (Note: this only works with Webiny powered websites.)"
+                                            placeholder="Type the url and press ENTER"
+                                            onEnter={form.submit}/>
+                                    </Grid.Col>
+                                    <Grid.Col all={12}>
+                                        {this.state.content !== '' && this.state.statusCode === 200 && (
+                                            <CodeEditor
+                                                readOnly={true}
+                                                label="Content"
+                                                name="content"
+                                                value={this.state.content}
+                                                height="auto"
+                                                autoFormat={true}/>
+                                        )}
+                                    </Grid.Col>
+                                </Grid.Row>
                                 <div className="clearfix"/>
-                            </div>
-                        )}
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button label="Close" onClick={this.hide}/>
-                    </Modal.Footer>
-                </Modal.Content>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button label="Close" onClick={this.hide}/>
+                            </Modal.Footer>
+                        </Modal.Content>
+                    )}
+                </Form>
             </Modal.Dialog>
         );
     }

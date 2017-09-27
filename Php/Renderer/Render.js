@@ -53,12 +53,12 @@ phantom.create([
         page.property('customHeaders', {"XWebinyStaticRender": "true"});
 
         page.on('onResourceReceived', function (resource) {
-            if (resource.url == url) {
-                if (status == 0) {
+            if (resource.url === url) {
+                if (status === 0) {
                     status = resource.status;
                     console.log('status code:' + resource.status);
                 }
-                if (resource.status != 200) {
+                if (resource.status !== 200) {
                     ph.exit();
                     process.exit();
                 }
@@ -66,13 +66,13 @@ phantom.create([
         });
 
         page.on("onResourceError", function (resourceError) {
-            if (resourceError.id == 1) {
+            if (resourceError.id === 1) {
                 console.log('status code:' + resourceError.status);
             }
         });
 
 
-        page.open(url).then((status) => {
+        page.open(url).then(status => {
 
             let runs = maxExecutionTime / snapshotInterval;
             let webinyStartedInterval = setInterval(() => {
