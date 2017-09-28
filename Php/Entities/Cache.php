@@ -23,6 +23,7 @@ class Cache extends AbstractEntity
 {
     protected static $classId = 'StaticRender.Entities.Cache';
     protected static $collection = 'StaticRenderCache';
+    protected static $i18nNamespace = 'StaticRenderCache';
 
     public function __construct()
     {
