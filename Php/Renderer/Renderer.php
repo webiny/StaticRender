@@ -72,12 +72,12 @@ class Renderer
 
     private function getPhantomJsPath()
     {
-        return $this->config->get('Settings.PathToPhantomJs', '/usr/local/bin/phantomjs');
+        return $this->config->get('Settings.PathToPhantomJs', '/usr/bin/phantomjs');
     }
 
     private function getNodePath()
     {
-        return $this->config->get('Settings.PathToNode', '/usr/bin/node');
+        return $this->config->get('Settings.PathToNode', '/usr/bin/env node');
     }
 
     private function getRenderJsPath()
